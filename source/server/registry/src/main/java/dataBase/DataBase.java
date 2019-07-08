@@ -6,17 +6,19 @@ import java.sql.SQLException;
 
 public class DataBase {
 
+    private static final String URL_PROP_NAME = "dbURL";
+    private static final String USER_PROP_NAME = "dbUserName";
+    private static final String PASS_PROP_NAME = "dbPassword";
+
     private static Connection connection = null;
 
-    synchronized public static Connection getConnection() {
-        String url = System.getProperty("dbURL");
-        String userName = System.getProperty("dbUserName");
-        String password = System.getProperty("dbPassword");
+    public static synchronized Connection getConnection() {
         try {
-            if (connection == null) {
-                connection = DriverManager.getConnection(url, userName, password);
-                System.out.println("Connection has been established");
-            }else if (connection.isClosed()) {
+            if (connection == null || connection.isClosed()) {
+                String url = System.getProperty(URL_PROP_NAME);
+                String userName = System.getProperty(USER_PROP_NAME);
+                String password = System.getProperty(PASS_PROP_NAME);
+
                 connection = DriverManager.getConnection(url, userName, password);
                 System.out.println("Connection has been established");
             }
