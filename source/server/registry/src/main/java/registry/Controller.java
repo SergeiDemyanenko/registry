@@ -10,4 +10,6 @@ public class Controller {
     public String index() {
         return "<html><body><h1>Java is cool!!!</h1></body></html>";
     }
+
+
 }
