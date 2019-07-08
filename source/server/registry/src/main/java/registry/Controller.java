@@ -11,9 +11,9 @@ public class Controller {
         return "<html><body><h1>Java is cool!!!</h1></body></html>";
     }
 
-    @RequestMapping("/checkStatus")
+    @RequestMapping("/hi")
     public String checkStatus() {
-        return "<html><body><h1>I am working, my Lord</h1></body></html>";
+        return "<html><body><h1>Hi</h1></body></html>";
     }
 
 
