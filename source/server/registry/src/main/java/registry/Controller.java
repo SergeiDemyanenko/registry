@@ -12,8 +12,8 @@ public class Controller {
     }
 
     @RequestMapping("/hi")
-    public String checkStatus() {
-        return "<html><body><h1>Hi</h1></body></html>";
+    public String hi() {
+        return "hi";
     }
 
 
