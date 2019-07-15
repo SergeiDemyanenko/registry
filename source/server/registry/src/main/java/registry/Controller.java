@@ -1,5 +1,6 @@
 package registry;
 
+import dataBase.DataBase;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,46 +22,11 @@ public class Controller {
         return "hi";
     }
 
-    public List<JSONObject> person(Connection connection) throws Exception{
-        ResultSet result;
-        List<JSONObject> jsonList = new ArrayList<>();
-        ResultSetMetaData rsmd;
-        try {
-            if (connection != null && !connection.isClosed()) {
-                Statement statement = connection.createStatement();
-                result = statement.executeQuery("SELECT  * from PERSON");
-                rsmd = result.getMetaData();
-                int columnNumber = rsmd.getColumnCount();
-                if (columnNumber == 0) {
-                    throw new SQLException("Table PERSON does not exist");
-                }
-                ArrayList<String> row;
-                JSONObject json;
-                ArrayList<String> header = new ArrayList<String>();
-                for (int i = 1; i <= columnNumber; i++) {
-                    header.add(rsmd.getColumnName(i));
-                }
-                while (result.next()) {
-                    row = new ArrayList<>();
-                    json = new JSONObject();
-                    for (int i = 1; i <= columnNumber; i++) {
-                        if (result.getString(i) != null) {
-                            json.put(header.get(i-1), result.getString(i));
-                            row.add(result.getString(i));
-                        }
-                    }
-                    jsonList.add(json);
-                }
-                statement.close();
-                result.close();
-            }
-
-        } catch (SQLException e) {
-            throw new SQLException(e);
-        }
-        return jsonList;
+    @RequestMapping ("/person")
+    public String person () {
+        Connection conn = DataBase.getConnection();
+        String query = "SELECT  * from PERSON";
+        return DataBase.executeQuery(conn, query);
     }
-
-
 
 }
