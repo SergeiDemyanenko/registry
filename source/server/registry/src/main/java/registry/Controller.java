@@ -1,13 +1,11 @@
 package registry;
 
 import dataBase.DataBase;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @RestController
 public class Controller {
@@ -22,7 +20,7 @@ public class Controller {
         return "hi";
     }
 
-    @RequestMapping ("/person")
+    @RequestMapping ("directory/person")
     public String person () {
         Connection conn = DataBase.getConnection();
         String query = "SELECT  * from PERSON";

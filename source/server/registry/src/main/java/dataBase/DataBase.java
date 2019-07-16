@@ -1,10 +1,13 @@
 package dataBase;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DataBase {
@@ -34,6 +37,7 @@ public class DataBase {
     public static String executeQuery(Connection connection, String sqlQuery) {
         ResultSet result;
         JSONArray jsonArray = new JSONArray();
+        List<JSONObject> jsonList = new ArrayList<>();
         ResultSetMetaData rsmd;
         try {
             if (connection != null && !connection.isClosed()) {
@@ -52,11 +56,11 @@ public class DataBase {
                 while (result.next()) {
                     json = new JSONObject();
                     for (int i = 1; i <= columnNumber; i++) {
-                        if (result.getString(i) != null) {
+                        if (result.getString(i) != null && !header.get(i-1).startsWith("ID")) {
                             json.put(header.get(i - 1), result.getString(i));
                         }
                     }
-                    jsonArray.put(json);
+                    jsonList.add(json);
                 }
                 statement.close();
                 result.close();
@@ -65,6 +69,35 @@ public class DataBase {
         } catch (SQLException e) {
             System.out.println("Requet was not completed: \n" + e.getMessage());
         }
+        jsonList = jsonSort(jsonList);
+        for(JSONObject json: jsonList) {
+            jsonArray.put(json);
+        }
         return jsonArray.toString();
+    }
+
+    public static List<JSONObject> jsonSort (List<JSONObject> list) {
+        Collections.sort(list, new Comparator<JSONObject>() {
+            //We can pick any field to sort by...
+            private static final String KEY = "SNAME";
+
+            @Override
+            public int compare(JSONObject a, JSONObject b) {
+                String valA = new String();
+                String valB = new String();
+
+                try {
+                    valA = (String) a.get(KEY);
+                    valB = (String) b.get(KEY);
+                }
+                catch (JSONException e) {
+                    System.out.println(e.getMessage());
+                }
+
+                return valA.compareTo(valB); //we cab change the sort order just by returning -valA.compare(valB)
+            }
+        });
+
+        return list;
     }
 }
