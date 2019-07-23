@@ -15,7 +15,6 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-
     private static void initProperties() throws Exception {
         Properties prop = new Properties();
         InputStream readFile = Application.class.getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
