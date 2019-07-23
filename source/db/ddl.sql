@@ -6,7 +6,7 @@ SET SQL DIALECT 3;
 
 SET NAMES WIN1251;
 
-CREATE DATABASE '..\..\target\db\db.fdb'
+CREATE DATABASE 'db.fdb'
 USER 'SYSDBA' PASSWORD 'masterkey'
 PAGE_SIZE 4096
 DEFAULT CHARACTER SET WIN1251 COLLATION WIN1251;
@@ -2396,14 +2396,14 @@ begin
     LENGTH_ = char_length(:NAME);
     LAST_CHAR = lower(substring(:NAME from :LENGTH_ for 1));
   
-    if ((LAST_CHAR = 'я') or (LAST_CHAR = 'a')) then
-      NAME = substring(:NAME from 1 for :LENGTH_ - 1) || 'е';
+    if ((LAST_CHAR = 'СЏ') or (LAST_CHAR = 'a')) then
+      NAME = substring(:NAME from 1 for :LENGTH_ - 1) || 'Рµ';
   
-    if (LAST_CHAR = 'й') then
-      NAME = substring(:NAME from 1 for :LENGTH_ - 1) || 'ю';
+    if (LAST_CHAR = 'Р№') then
+      NAME = substring(:NAME from 1 for :LENGTH_ - 1) || 'СЋ';
   
-    if ((LAST_CHAR = 'л') or (LAST_CHAR = 'р') or (LAST_CHAR = 'м') or (LAST_CHAR = 'н')) then
-      NAME = :NAME || 'у';
+    if ((LAST_CHAR = 'Р»') or (LAST_CHAR = 'СЂ') or (LAST_CHAR = 'Рј') or (LAST_CHAR = 'РЅ')) then
+      NAME = :NAME || 'Сѓ';
   end
 
 -------- SNAME
@@ -2413,17 +2413,17 @@ begin
     LENGTH_ = char_length(:SNAME);
     LAST_CHAR = lower(substring(:SNAME from :LENGTH_ for 1));
   
-    if ((:LAST_CHAR = 'к') or (:LAST_CHAR = 'ч') or (:LAST_CHAR = 'в') or (:LAST_CHAR = 'н')) then
-      SNAME = :SNAME || 'у';
+    if ((:LAST_CHAR = 'Рє') or (:LAST_CHAR = 'С‡') or (:LAST_CHAR = 'РІ') or (:LAST_CHAR = 'РЅ')) then
+      SNAME = :SNAME || 'Сѓ';
   
-    if (:LAST_CHAR = 'а') then
-      SNAME = substring(:SNAME from 1 for :LENGTH_ - 1) || 'ой';
+    if (:LAST_CHAR = 'Р°') then
+      SNAME = substring(:SNAME from 1 for :LENGTH_ - 1) || 'РѕР№';
   
-    if (:LAST_CHAR = 'я') then
-      SNAME = substring(:SNAME from 1 for :LENGTH_ - 2) || 'ой';
+    if (:LAST_CHAR = 'СЏ') then
+      SNAME = substring(:SNAME from 1 for :LENGTH_ - 2) || 'РѕР№';
   
-    if (:LAST_CHAR = 'й') then
-      SNAME = substring(:SNAME from 1 for :LENGTH_ - 2) || 'ому';
+    if (:LAST_CHAR = 'Р№') then
+      SNAME = substring(:SNAME from 1 for :LENGTH_ - 2) || 'РѕРјСѓ';
   end
 
 -------- PNAME
@@ -2433,11 +2433,11 @@ begin
     LENGTH_ = char_length(:PNAME);
     LAST_CHAR = lower(substring(:PNAME from :LENGTH_ for 1));
   
-    if (:LAST_CHAR = 'а') then
-      PNAME = substring(:PNAME from 1 for :LENGTH_ - 1) || 'е';
+    if (:LAST_CHAR = 'Р°') then
+      PNAME = substring(:PNAME from 1 for :LENGTH_ - 1) || 'Рµ';
   
-    if (:LAST_CHAR = 'ч') then
-      PNAME = :PNAME || 'у';
+    if (:LAST_CHAR = 'С‡') then
+      PNAME = :PNAME || 'Сѓ';
   end
 
   suspend;
@@ -2572,15 +2572,15 @@ declare variable SECOND_ integer;
 declare variable MILLISECOND_ integer;
 begin
   /*
-  yyyy - год
-  yy - год
-  mm - месяц
-  dd - день
+  yyyy - РіРѕРґ
+  yy - РіРѕРґ
+  mm - РјРµСЃСЏС†
+  dd - РґРµРЅСЊ
 
-  hh - часы
-  nn - минуты
-  ss - секунды
-  zzz - миллисекунды
+  hh - С‡Р°СЃС‹
+  nn - РјРёРЅСѓС‚С‹
+  ss - СЃРµРєСѓРЅРґС‹
+  zzz - РјРёР»Р»РёСЃРµРєСѓРЅРґС‹
   */
   if (:DATE_TIME is not null) then
   begin
@@ -2661,108 +2661,108 @@ declare variable I integer;
 declare variable BUF varchar(200);
 declare variable BUF1 varchar(200);
 BEGIN
-  /* Константы */
+  /* РљРѕРЅСЃС‚Р°РЅС‚С‹ */
   razryad_idx = /* 2.2 */ '0100010506071308210829114011';
-  razryad = 'тысячмиллионмиллиардтриллионквадриллионквинтиллион';
+  razryad = 'С‚С‹СЃСЏС‡РјРёР»Р»РёРѕРЅРјРёР»Р»РёР°СЂРґС‚СЂРёР»Р»РёРѕРЅРєРІР°РґСЂРёР»Р»РёРѕРЅРєРІРёРЅС‚РёР»Р»РёРѕРЅ';
   hundreds_idx = /* 2.1 */ '010013046106169257328407479569';
-  hundreds = 'стодвеститристачетырестапятьсотшестьсотсемьсотвосемьсотдевятьсот';
+  hundreds = 'СЃС‚РѕРґРІРµСЃС‚РёС‚СЂРёСЃС‚Р°С‡РµС‚С‹СЂРµСЃС‚Р°РїСЏС‚СЊСЃРѕС‚С€РµСЃС‚СЊСЃРѕС‚СЃРµРјСЊСЃРѕС‚РІРѕСЃРµРјСЊСЃРѕС‚РґРµРІСЏС‚СЊСЃРѕС‚';
   tens_idx = /* 2.2 */ '0100010001080908170522093110410950116109';
-  tens = 'двадцатьтридцатьсорокпятьдесятшестьдесятсемьдесятвосемьдесятдевяносто';
+  tens = 'РґРІР°РґС†Р°С‚СЊС‚СЂРёРґС†Р°С‚СЊСЃРѕСЂРѕРєРїСЏС‚СЊРґРµСЃСЏС‚С€РµСЃС‚СЊРґРµСЃСЏС‚СЃРµРјСЊРґРµСЃСЏС‚РІРѕСЃРµРјСЊРґРµСЃСЏС‚РґРµРІСЏРЅРѕСЃС‚Рѕ';
   ones_idx = /* 3.2 */ '0010000100001000010300406010040140501904023060290603506041110521006210072120841009411105101151212712';
-  ones = 'тричетырепятьшестьсемьвосемьдевятьдесятьодиннадцатьдвенадцатьтринадцатьчетырнадцатьпятнадцатьшестнадцатьсемнадцатьвосемнадцатьдевятнадцать';
+  ones = 'С‚СЂРёС‡РµС‚С‹СЂРµРїСЏС‚СЊС€РµСЃС‚СЊСЃРµРјСЊРІРѕСЃРµРјСЊРґРµРІСЏС‚СЊРґРµСЃСЏС‚СЊРѕРґРёРЅРЅР°РґС†Р°С‚СЊРґРІРµРЅР°РґС†Р°С‚СЊС‚СЂРёРЅР°РґС†Р°С‚СЊС‡РµС‚С‹СЂРЅР°РґС†Р°С‚СЊРїСЏС‚РЅР°РґС†Р°С‚СЊС€РµСЃС‚РЅР°РґС†Р°С‚СЊСЃРµРјРЅР°РґС†Р°С‚СЊРІРѕСЃРµРјРЅР°РґС†Р°С‚СЊРґРµРІСЏС‚РЅР°РґС†Р°С‚СЊ';
  
   IF (ShowCurrency IS NULL) then ShowCurrency = 0;
   RESULT = '';
  
-  /* Смотрим знак */
+  /* РЎРјРѕС‚СЂРёРј Р·РЅР°Рє */
   IF (val < 0) then begin
-    sign_of_val = 'минус ';
+    sign_of_val = 'РјРёРЅСѓСЃ ';
     val = -val;
   end else
     sign_of_val = '';
  
-  /* Выбираем и запоминаем копейки, убираем их из числа */
+  /* Р’С‹Р±РёСЂР°РµРј Рё Р·Р°РїРѕРјРёРЅР°РµРј РєРѕРїРµР№РєРё, СѓР±РёСЂР°РµРј РёС… РёР· С‡РёСЃР»Р° */
   val_str = cast(val AS varchar(20));
   i = position('.' IN val_str);
   cents = lpad(substring(val_str FROM i+1 FOR 2), 2, '0');
   val_str = lpad(substring(val_str FROM 1 FOR i-1), ((i+1)/3*3), '0');
  
-  /* Разбираем число */
+  /* Р Р°Р·Р±РёСЂР°РµРј С‡РёСЃР»Рѕ */
   raz = 0; RESULT = '';
   while (val_str != '') do begin
-    /* Берём триаду символов */
+    /* Р‘РµСЂС‘Рј С‚СЂРёР°РґСѓ СЃРёРјРІРѕР»РѕРІ */
     num = RIGHT(val_str, 3);
-    /* Если не нулевое число */
+    /* Р•СЃР»Рё РЅРµ РЅСѓР»РµРІРѕРµ С‡РёСЃР»Рѕ */
     IF (num != '000') then begin
-      /* Берём сотни */
+      /* Р‘РµСЂС‘Рј СЃРѕС‚РЅРё */
       i = cast(substring(num FROM 1 FOR 1) AS int);
       buf = substring(hundreds FROM cast(substring(hundreds_idx FROM i*3+1 FOR 2) AS int) FOR cast(substring(hundreds_idx FROM i*3+3 FOR 1) AS int));
  
-      /* Далее десятки */
-      /* Для "десятнадцатых" упрощённая обработка */
+      /* Р”Р°Р»РµРµ РґРµСЃСЏС‚РєРё */
+      /* Р”Р»СЏ "РґРµСЃСЏС‚РЅР°РґС†Р°С‚С‹С…" СѓРїСЂРѕС‰С‘РЅРЅР°СЏ РѕР±СЂР°Р±РѕС‚РєР° */
       IF (substring(num FROM 2 FOR 1) = '1') then begin
-          /* Вставляем нужную "десятнадцать" */
+          /* Р’СЃС‚Р°РІР»СЏРµРј РЅСѓР¶РЅСѓСЋ "РґРµСЃСЏС‚РЅР°РґС†Р°С‚СЊ" */
           i = cast(substring(num FROM 2 FOR 2) AS int);
           buf1 = substring(ones FROM cast(substring(ones_idx FROM i*5+1 FOR 3) AS int) FOR cast(substring(ones_idx FROM i*5+4 FOR 2) AS int));
           IF (buf != '') then buf = buf || ' ';
           buf = buf || buf1;
       end else
-      /* Для "нормальных" чисел своя обработка */
+      /* Р”Р»СЏ "РЅРѕСЂРјР°Р»СЊРЅС‹С…" С‡РёСЃРµР» СЃРІРѕСЏ РѕР±СЂР°Р±РѕС‚РєР° */
       begin
-        /* Десятки */
+        /* Р”РµСЃСЏС‚РєРё */
         i = cast(substring(num FROM 2 FOR 1) AS int);
         buf1 = substring(tens FROM cast(substring(tens_idx FROM i*4+1 FOR 2) AS int) FOR cast(substring(tens_idx FROM i*4+3 FOR 2) AS int));
         IF (buf != '' AND buf1 != '') then buf = buf || ' ';
         buf = buf || buf1;
  
-        /* Единицы */
+        /* Р•РґРёРЅРёС†С‹ */
         i = cast(substring(num FROM 3 FOR 1) AS int);
-        /* Смотрим количество для нужного окончания */
+        /* РЎРјРѕС‚СЂРёРј РєРѕР»РёС‡РµСЃС‚РІРѕ РґР»СЏ РЅСѓР¶РЅРѕРіРѕ РѕРєРѕРЅС‡Р°РЅРёСЏ */
         IF (i = 1) then begin
-          IF (raz = 1) then buf1 = 'одна'; else buf1 = 'один';
+          IF (raz = 1) then buf1 = 'РѕРґРЅР°'; else buf1 = 'РѕРґРёРЅ';
         end else
         IF (i = 2) then begin
-          IF (raz = 1) then buf1 = 'две'; else buf1 = 'два';
+          IF (raz = 1) then buf1 = 'РґРІРµ'; else buf1 = 'РґРІР°';
         end else
           buf1 = substring(ones FROM cast(substring(ones_idx FROM i*5+1 FOR 3) AS int) FOR cast(substring(ones_idx FROM i*5+4 FOR 2) AS int));
         IF (buf != '' AND buf1 != '') then buf = buf || ' ';
         buf = buf || buf1;
       end
  
-      /* Разряд числа */
+      /* Р Р°Р·СЂСЏРґ С‡РёСЃР»Р° */
       buf1 = substring(razryad FROM cast(substring(razryad_idx FROM raz*4+1 FOR 2) AS int) FOR cast(substring(razryad_idx FROM raz*4+3 FOR 2) AS int));
       IF (buf1 != '') then begin
-        /* Подбор окончания для разряда */
+        /* РџРѕРґР±РѕСЂ РѕРєРѕРЅС‡Р°РЅРёСЏ РґР»СЏ СЂР°Р·СЂСЏРґР° */
         IF (i = 1) then begin
-          IF (raz = 1) then buf1 = buf1 || 'а';
+          IF (raz = 1) then buf1 = buf1 || 'Р°';
         end else
         IF (i IN (2,3,4)) then begin
-          IF (raz = 1) then buf1 = buf1 || 'и';
-          else IF (raz > 1) then buf1 = buf1 || 'а';
+          IF (raz = 1) then buf1 = buf1 || 'Рё';
+          else IF (raz > 1) then buf1 = buf1 || 'Р°';
         end else
-          IF (raz > 1) then buf1 = buf1 || 'ов';
+          IF (raz > 1) then buf1 = buf1 || 'РѕРІ';
         buf = buf || ' ' || buf1;
       end
     end else
       buf = '';
  
-    /* Присоединяем обработанную триаду к результату */
+    /* РџСЂРёСЃРѕРµРґРёРЅСЏРµРј РѕР±СЂР°Р±РѕС‚Р°РЅРЅСѓСЋ С‚СЂРёР°РґСѓ Рє СЂРµР·СѓР»СЊС‚Р°С‚Сѓ */
     IF (RESULT != '' AND buf != '') then buf = buf || ' ';
     RESULT = buf || RESULT;
-    /* Переходим к следующей триаде */
+    /* РџРµСЂРµС…РѕРґРёРј Рє СЃР»РµРґСѓСЋС‰РµР№ С‚СЂРёР°РґРµ */
     val_str = LEFT(val_str, char_length(val_str)-3);
-    /* Увеличиваем счётчик разряда */
+    /* РЈРІРµР»РёС‡РёРІР°РµРј СЃС‡С‘С‚С‡РёРє СЂР°Р·СЂСЏРґР° */
     raz = raz + 1;
   end
  
-  /* Припысываем знак */
+  /* РџСЂРёРїС‹СЃС‹РІР°РµРј Р·РЅР°Рє */
   RESULT = sign_of_val || RESULT;
-  /* Делаем первую букву прописной */
+  /* Р”РµР»Р°РµРј РїРµСЂРІСѓСЋ Р±СѓРєРІСѓ РїСЂРѕРїРёСЃРЅРѕР№ */
   RESULT = upper(substring(RESULT FROM 1 FOR 1)) || substring(RESULT FROM 2);
  
-  /* Флаг "показать название валюты" */
+  /* Р¤Р»Р°Рі "РїРѕРєР°Р·Р°С‚СЊ РЅР°Р·РІР°РЅРёРµ РІР°Р»СЋС‚С‹" */
   IF (ShowCurrency = 1) then
-    RESULT = RESULT || ' руб. ' || cents || ' коп.';
+    RESULT = RESULT || ' СЂСѓР±. ' || cents || ' РєРѕРї.';
  
   suspend;
 end^
@@ -3023,40 +3023,40 @@ begin
   while (INDEX_ <= 12) do
   begin
     if (INDEX_ = 1) then
-      NAME_ = 'Январ' || iif(END_ = 1, 'ь', 'я');
+      NAME_ = 'РЇРЅРІР°СЂ' || iif(END_ = 1, 'СЊ', 'СЏ');
 
     if (INDEX_ = 2) then
-      NAME_ = 'Феврал' || iif(END_ = 1, 'ь', 'я');
+      NAME_ = 'Р¤РµРІСЂР°Р»' || iif(END_ = 1, 'СЊ', 'СЏ');
 
     if (INDEX_ = 3) then
-      NAME_ = 'Март' || iif(END_ = 1, '', 'а');
+      NAME_ = 'РњР°СЂС‚' || iif(END_ = 1, '', 'Р°');
 
     if (INDEX_ = 4) then
-      NAME_ = 'Апрел' || iif(END_ = 1, 'ь', 'я');
+      NAME_ = 'РђРїСЂРµР»' || iif(END_ = 1, 'СЊ', 'СЏ');
 
     if (INDEX_ = 5) then
-      NAME_ = 'Ма' || iif(END_ = 1, 'й', 'я');
+      NAME_ = 'РњР°' || iif(END_ = 1, 'Р№', 'СЏ');
 
     if (INDEX_ = 6) then
-      NAME_ = 'Июн' || iif(END_ = 1, 'ь', 'я');
+      NAME_ = 'РСЋРЅ' || iif(END_ = 1, 'СЊ', 'СЏ');
 
     if (INDEX_ = 7) then
-      NAME_ = 'Июл' || iif(END_ = 1, 'ь', 'я');
+      NAME_ = 'РСЋР»' || iif(END_ = 1, 'СЊ', 'СЏ');
 
     if (INDEX_ = 8) then
-      NAME_ = 'Август' || iif(END_ = 1, '', 'а');
+      NAME_ = 'РђРІРіСѓСЃС‚' || iif(END_ = 1, '', 'Р°');
 
     if (INDEX_ = 9) then
-      NAME_ = 'Сентябр' || iif(END_ = 1, 'ь', 'я');
+      NAME_ = 'РЎРµРЅС‚СЏР±СЂ' || iif(END_ = 1, 'СЊ', 'СЏ');
 
     if (INDEX_ = 10) then
-      NAME_ = 'Октябр' || iif(END_ = 1, 'ь', 'я');
+      NAME_ = 'РћРєС‚СЏР±СЂ' || iif(END_ = 1, 'СЊ', 'СЏ');
 
     if (INDEX_ = 11) then
-      NAME_ = 'Ноябр' || iif(END_ = 1, 'ь', 'я');
+      NAME_ = 'РќРѕСЏР±СЂ' || iif(END_ = 1, 'СЊ', 'СЏ');
 
     if (INDEX_ = 12) then
-      NAME_ = 'Декабр' || iif(END_ = 1, 'ь', 'я');
+      NAME_ = 'Р”РµРєР°Р±СЂ' || iif(END_ = 1, 'СЊ', 'СЏ');
 
     if (NAME_ <> '') then
       suspend;
@@ -3308,7 +3308,7 @@ begin
       from CUSTOMER_DEBT;
   end
   else
-    if (:ROW = 'сальдо' and RDB$GET_CONTEXT(:CONST_VAR, :CONST_ID) is not null) then
+    if (:ROW = 'СЃР°Р»СЊРґРѕ' and RDB$GET_CONTEXT(:CONST_VAR, :CONST_ID) is not null) then
     begin
       ID = RDB$GET_CONTEXT(:CONST_VAR, :CONST_ID);
 
@@ -3345,46 +3345,46 @@ begin
   D_FORMAT = 'YYYY-MM-DDT00:00:00';
 
   for select
-    R.ID_REGISTER, --Код
+    R.ID_REGISTER, --РљРѕРґ
 
-    cast(L_FORM.WORD as int), --ЮЛ/ИП
+    cast(L_FORM.WORD as int), --Р®Р›/РРџ
     P.ID_PERSON,
     coalesce(O.POSITION_HEAD || ' ', ''),
     P.SNAME || ' ' || P.NAME || ' ' || P.PNAME,
   
-    '<PACKAGE_MEMBER_FULL_DESCRIPTION xsi:type="xsd:string">' || FULL_NAME.RESULT || '</PACKAGE_MEMBER_FULL_DESCRIPTION>' || --Полное наименование
-    '<PACKAGE_MEMBER_SHORT_DESCRIPTION xsi:type="xsd:string">' || SHORT_NAME.RESULT || '</PACKAGE_MEMBER_SHORT_DESCRIPTION>' || --Сокращенное наименование
-    '<PACKAGE_MEMBER_MEMBER_TYPE xsi:type="xsd:integer">' || L_FORM.WORD || '</PACKAGE_MEMBER_MEMBER_TYPE>' || --ЮЛ/ИП
-    '<PACKAGE_MEMBER_MEMBER_STATUS xsi:type="xsd:integer">' || iif(R.MEMBER = 1, 1, 2) || '</PACKAGE_MEMBER_MEMBER_STATUS>' || --Статус члена
-    '<PACKAGE_MEMBER_ACCORDANCE_STATUS xsi:type="xsd:integer">' || iif(R.CORRECT_MEMBER = 1, 1, 2) || '</PACKAGE_MEMBER_ACCORDANCE_STATUS>' || --Сведения о соответствии
-    '<PACKAGE_MEMBER_REGISTRATION_NUMBER xsi:type="xsd:string">' || R.CODE || '</PACKAGE_MEMBER_REGISTRATION_NUMBER>' || --Регистрационный номер в реестре СРО
-    '<PACKAGE_MEMBER_REGISTRATION_DATE_SRO xsi:type="xsd:dateTime">' || FIRST_DATE.RESULT || '</PACKAGE_MEMBER_REGISTRATION_DATE_SRO>' || --Дата регистрации в реестре СРО
-    '<PACKAGE_MEMBER_OGRN xsi:type="xsd:string">' || O.OGRN_ || '</PACKAGE_MEMBER_OGRN>' || --ОГРН/ОГРНИП
-    '<PACKAGE_MEMBER_INN xsi:type="xsd:string">' || O.INN_ || '</PACKAGE_MEMBER_INN>' || --ИНН
-    '<PACKAGE_MEMBER_PHONES xsi:type="xsd:string">' || O.PHONE || '</PACKAGE_MEMBER_PHONES>' || --Контактные телефоны
-    '<PACKAGE_MEMBER_ADDRESS_POST_INDEX xsi:type="xsd:string">' || O.ADDRESS_INDEX || '</PACKAGE_MEMBER_ADDRESS_POST_INDEX>' || --Адрес (Индекс)
-    '<PACKAGE_MEMBER_ADDRESS_COUNTRY xsi:type="xsd:string">' || O.ADDRESS_COUNTRY || '</PACKAGE_MEMBER_ADDRESS_COUNTRY>' || --Адрес (Страна)
-    '<PACKAGE_MEMBER_ADDRESS_SUBJECT xsi:type="xsd:string">' || REG.CODE || '</PACKAGE_MEMBER_ADDRESS_SUBJECT>' || --Адрес (Субъект)
-    '<PACKAGE_MEMBER_ADDRESS_DISTRICT xsi:type="xsd:string">' || coalesce(O.ADDRESS_DISTRICT, '') || '</PACKAGE_MEMBER_ADDRESS_DISTRICT>' || --Адрес (Район)
-    '<PACKAGE_MEMBER_ADDRESS_LOCALITY xsi:type="xsd:string">' || coalesce(O.ADDRESS_CITY, '') || '</PACKAGE_MEMBER_ADDRESS_LOCALITY>' || --Адрес (Населённый пункт)
-    '<PACKAGE_MEMBER_ADDRESS_STREET xsi:type="xsd:string">' || coalesce(O.ADDRESS_STREET, '') || '</PACKAGE_MEMBER_ADDRESS_STREET>' || --Адрес (Улица)
-    '<PACKAGE_MEMBER_ADDRESS_HOME xsi:type="xsd:string">' || coalesce(O.ADDRESS_HOUSE, '') || '</PACKAGE_MEMBER_ADDRESS_HOME>' || --Адрес (Дом)
-    '<PACKAGE_MEMBER_ADDRESS_BILDING xsi:type="xsd:string">' || coalesce(O.ADDRESS_STRUCTURE, '') || '</PACKAGE_MEMBER_ADDRESS_BILDING>' || --Адрес (Корпус/строение)
-    '<PACKAGE_MEMBER_ADDRESS_ROOM xsi:type="xsd:string">' || coalesce(O.ADDRESS_ROOM, '') || '</PACKAGE_MEMBER_ADDRESS_ROOM>' || --Адрес (Помещение)
+    '<PACKAGE_MEMBER_FULL_DESCRIPTION xsi:type="xsd:string">' || FULL_NAME.RESULT || '</PACKAGE_MEMBER_FULL_DESCRIPTION>' || --РџРѕР»РЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ
+    '<PACKAGE_MEMBER_SHORT_DESCRIPTION xsi:type="xsd:string">' || SHORT_NAME.RESULT || '</PACKAGE_MEMBER_SHORT_DESCRIPTION>' || --РЎРѕРєСЂР°С‰РµРЅРЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ
+    '<PACKAGE_MEMBER_MEMBER_TYPE xsi:type="xsd:integer">' || L_FORM.WORD || '</PACKAGE_MEMBER_MEMBER_TYPE>' || --Р®Р›/РРџ
+    '<PACKAGE_MEMBER_MEMBER_STATUS xsi:type="xsd:integer">' || iif(R.MEMBER = 1, 1, 2) || '</PACKAGE_MEMBER_MEMBER_STATUS>' || --РЎС‚Р°С‚СѓСЃ С‡Р»РµРЅР°
+    '<PACKAGE_MEMBER_ACCORDANCE_STATUS xsi:type="xsd:integer">' || iif(R.CORRECT_MEMBER = 1, 1, 2) || '</PACKAGE_MEMBER_ACCORDANCE_STATUS>' || --РЎРІРµРґРµРЅРёСЏ Рѕ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё
+    '<PACKAGE_MEMBER_REGISTRATION_NUMBER xsi:type="xsd:string">' || R.CODE || '</PACKAGE_MEMBER_REGISTRATION_NUMBER>' || --Р РµРіРёСЃС‚СЂР°С†РёРѕРЅРЅС‹Р№ РЅРѕРјРµСЂ РІ СЂРµРµСЃС‚СЂРµ РЎР Рћ
+    '<PACKAGE_MEMBER_REGISTRATION_DATE_SRO xsi:type="xsd:dateTime">' || FIRST_DATE.RESULT || '</PACKAGE_MEMBER_REGISTRATION_DATE_SRO>' || --Р”Р°С‚Р° СЂРµРіРёСЃС‚СЂР°С†РёРё РІ СЂРµРµСЃС‚СЂРµ РЎР Рћ
+    '<PACKAGE_MEMBER_OGRN xsi:type="xsd:string">' || O.OGRN_ || '</PACKAGE_MEMBER_OGRN>' || --РћР“Р Рќ/РћР“Р РќРРџ
+    '<PACKAGE_MEMBER_INN xsi:type="xsd:string">' || O.INN_ || '</PACKAGE_MEMBER_INN>' || --РРќРќ
+    '<PACKAGE_MEMBER_PHONES xsi:type="xsd:string">' || O.PHONE || '</PACKAGE_MEMBER_PHONES>' || --РљРѕРЅС‚Р°РєС‚РЅС‹Рµ С‚РµР»РµС„РѕРЅС‹
+    '<PACKAGE_MEMBER_ADDRESS_POST_INDEX xsi:type="xsd:string">' || O.ADDRESS_INDEX || '</PACKAGE_MEMBER_ADDRESS_POST_INDEX>' || --РђРґСЂРµСЃ (РРЅРґРµРєСЃ)
+    '<PACKAGE_MEMBER_ADDRESS_COUNTRY xsi:type="xsd:string">' || O.ADDRESS_COUNTRY || '</PACKAGE_MEMBER_ADDRESS_COUNTRY>' || --РђРґСЂРµСЃ (РЎС‚СЂР°РЅР°)
+    '<PACKAGE_MEMBER_ADDRESS_SUBJECT xsi:type="xsd:string">' || REG.CODE || '</PACKAGE_MEMBER_ADDRESS_SUBJECT>' || --РђРґСЂРµСЃ (РЎСѓР±СЉРµРєС‚)
+    '<PACKAGE_MEMBER_ADDRESS_DISTRICT xsi:type="xsd:string">' || coalesce(O.ADDRESS_DISTRICT, '') || '</PACKAGE_MEMBER_ADDRESS_DISTRICT>' || --РђРґСЂРµСЃ (Р Р°Р№РѕРЅ)
+    '<PACKAGE_MEMBER_ADDRESS_LOCALITY xsi:type="xsd:string">' || coalesce(O.ADDRESS_CITY, '') || '</PACKAGE_MEMBER_ADDRESS_LOCALITY>' || --РђРґСЂРµСЃ (РќР°СЃРµР»С‘РЅРЅС‹Р№ РїСѓРЅРєС‚)
+    '<PACKAGE_MEMBER_ADDRESS_STREET xsi:type="xsd:string">' || coalesce(O.ADDRESS_STREET, '') || '</PACKAGE_MEMBER_ADDRESS_STREET>' || --РђРґСЂРµСЃ (РЈР»РёС†Р°)
+    '<PACKAGE_MEMBER_ADDRESS_HOME xsi:type="xsd:string">' || coalesce(O.ADDRESS_HOUSE, '') || '</PACKAGE_MEMBER_ADDRESS_HOME>' || --РђРґСЂРµСЃ (Р”РѕРј)
+    '<PACKAGE_MEMBER_ADDRESS_BILDING xsi:type="xsd:string">' || coalesce(O.ADDRESS_STRUCTURE, '') || '</PACKAGE_MEMBER_ADDRESS_BILDING>' || --РђРґСЂРµСЃ (РљРѕСЂРїСѓСЃ/СЃС‚СЂРѕРµРЅРёРµ)
+    '<PACKAGE_MEMBER_ADDRESS_ROOM xsi:type="xsd:string">' || coalesce(O.ADDRESS_ROOM, '') || '</PACKAGE_MEMBER_ADDRESS_ROOM>' || --РђРґСЂРµСЃ (РџРѕРјРµС‰РµРЅРёРµ)
     '<PACKAGE_MEMBER_EMAIL xsi:type="xsd:string">' || coalesce(O.EMAIL, '') || '</PACKAGE_MEMBER_EMAIL>' || --E-mail
-    '<PACKAGE_MEMBER_STATE_REGISTRATION_DATE xsi:type="xsd:dateTime">' || ENTRY_DATE.RESULT || '</PACKAGE_MEMBER_STATE_REGISTRATION_DATE>' ||  --Дата государственной регистрации
-    '<PACKAGE_MEMBER_COMPENSATION_FOUND_FEE xsi:type="xsd:double">0</PACKAGE_MEMBER_COMPENSATION_FOUND_FEE>' || --КФ СРО
-    '<PACKAGE_MEMBER_COMPENSATION_FOUND_FEE_ODO xsi:type="xsd:double">' || coalesce(FC_SUM_.RESULT, '') || '</PACKAGE_MEMBER_COMPENSATION_FOUND_FEE_ODO>' || --Размер взноса в КФ ОДО
-    '<PACKAGE_MEMBER_RESPONSIBILITY_LEVEL_ODO xsi:type="xsd:string">' || coalesce(LC.NAME, '') || '</PACKAGE_MEMBER_RESPONSIBILITY_LEVEL_ODO>' || --Уровень ответственности ОДО
-    '<PACKAGE_MEMBER_COMPENSATION_FOUND_FEE_VV xsi:type="xsd:double">' || coalesce(FH_SUM_.RESULT, '') || '</PACKAGE_MEMBER_COMPENSATION_FOUND_FEE_VV>' || --Размер взноса в КФ ВВ
-    '<PACKAGE_MEMBER_RESPONSIBILITY_LEVEL_VV xsi:type="xsd:string">' || coalesce(LH.NAME, '') || '</PACKAGE_MEMBER_RESPONSIBILITY_LEVEL_VV>' || --Уровень ответственности ВВ
-    '<PACKAGE_MEMBER_SUSPENSION_DATE xsi:type="xsd:dateTime">' || coalesce(FINISH_DATE.RESULT, '') || '</PACKAGE_MEMBER_SUSPENSION_DATE>' || --Дата прекращения членства
-    '<PACKAGE_MEMBER_SUSPENSION_REASON xsi:type="xsd:string">' || FINISH_TEXT.RESULT || '</PACKAGE_MEMBER_SUSPENSION_REASON>' --Основание прекращения членства
+    '<PACKAGE_MEMBER_STATE_REGISTRATION_DATE xsi:type="xsd:dateTime">' || ENTRY_DATE.RESULT || '</PACKAGE_MEMBER_STATE_REGISTRATION_DATE>' ||  --Р”Р°С‚Р° РіРѕСЃСѓРґР°СЂСЃС‚РІРµРЅРЅРѕР№ СЂРµРіРёСЃС‚СЂР°С†РёРё
+    '<PACKAGE_MEMBER_COMPENSATION_FOUND_FEE xsi:type="xsd:double">0</PACKAGE_MEMBER_COMPENSATION_FOUND_FEE>' || --РљР¤ РЎР Рћ
+    '<PACKAGE_MEMBER_COMPENSATION_FOUND_FEE_ODO xsi:type="xsd:double">' || coalesce(FC_SUM_.RESULT, '') || '</PACKAGE_MEMBER_COMPENSATION_FOUND_FEE_ODO>' || --Р Р°Р·РјРµСЂ РІР·РЅРѕСЃР° РІ РљР¤ РћР”Рћ
+    '<PACKAGE_MEMBER_RESPONSIBILITY_LEVEL_ODO xsi:type="xsd:string">' || coalesce(LC.NAME, '') || '</PACKAGE_MEMBER_RESPONSIBILITY_LEVEL_ODO>' || --РЈСЂРѕРІРµРЅСЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕСЃС‚Рё РћР”Рћ
+    '<PACKAGE_MEMBER_COMPENSATION_FOUND_FEE_VV xsi:type="xsd:double">' || coalesce(FH_SUM_.RESULT, '') || '</PACKAGE_MEMBER_COMPENSATION_FOUND_FEE_VV>' || --Р Р°Р·РјРµСЂ РІР·РЅРѕСЃР° РІ РљР¤ Р’Р’
+    '<PACKAGE_MEMBER_RESPONSIBILITY_LEVEL_VV xsi:type="xsd:string">' || coalesce(LH.NAME, '') || '</PACKAGE_MEMBER_RESPONSIBILITY_LEVEL_VV>' || --РЈСЂРѕРІРµРЅСЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕСЃС‚Рё Р’Р’
+    '<PACKAGE_MEMBER_SUSPENSION_DATE xsi:type="xsd:dateTime">' || coalesce(FINISH_DATE.RESULT, '') || '</PACKAGE_MEMBER_SUSPENSION_DATE>' || --Р”Р°С‚Р° РїСЂРµРєСЂР°С‰РµРЅРёСЏ С‡Р»РµРЅСЃС‚РІР°
+    '<PACKAGE_MEMBER_SUSPENSION_REASON xsi:type="xsd:string">' || FINISH_TEXT.RESULT || '</PACKAGE_MEMBER_SUSPENSION_REASON>' --РћСЃРЅРѕРІР°РЅРёРµ РїСЂРµРєСЂР°С‰РµРЅРёСЏ С‡Р»РµРЅСЃС‚РІР°
   
   from REGISTER R
   left join ORGANIZATION_ O on O.ID_ORGANIZATION_ = R.ID_ORGANIZATION_
   left join LEGAL_FORM LF on LF.ID_LEGAL_FORM = O.ID_LEGAL_FORM
-  left join SENTENCE_TO_TABLE('1,2') L_FORM on L_FORM.WORD = iif(LF.SHORT_NAME = 'ИП', 2, 1)
+  left join SENTENCE_TO_TABLE('1,2') L_FORM on L_FORM.WORD = iif(LF.SHORT_NAME = 'РРџ', 2, 1)
   left join PERSON P on P.ID_PERSON = O.ID_PERSON
   left join CONFIG C on 0=0
   left join REGION REG on REG.ID_REGION = O.ID_REGION
@@ -3409,14 +3409,14 @@ begin
 
 -- ui & ip
     if (L_FORM = 2) then
-    begin --ИП
+    begin --РРџ
       XML = :XML || '<ul xsi:type="soap:ul" xmlns:soap="https://lkreestr.nostroy.ru/soap/"><PACKAGE_MEMBER_DIRECTOR xsi:type="xsd:string"></PACKAGE_MEMBER_DIRECTOR></ul>';
 
       select 
-        '<PACKAGE_MEMBER_INDIVIDUAL_REGISTRATION_ADDRESS xsi:type="xsd:string">' || P.PASS_ARRDESS || '</PACKAGE_MEMBER_INDIVIDUAL_REGISTRATION_ADDRESS>' || --Адрес регистрации (для ИП)
-        '<PACKAGE_MEMBER_INDIVIDUAL_BIRTH_DAY xsi:type="xsd:dateTime">' || coalesce(P_BIRTH_DATE.RESULT, '') || '</PACKAGE_MEMBER_INDIVIDUAL_BIRTH_DAY>' || --Дата рождения (для ИП)
-        '<PACKAGE_MEMBER_INDIVIDUAL_BIRTH_PLACE xsi:type="xsd:string">' || coalesce(P.BIRTH_PLACE, '') || '</PACKAGE_MEMBER_INDIVIDUAL_BIRTH_PLACE>' || --Место рождения (для ИП)
-        '<PACKAGE_MEMBER_INDIVIDUAL_PASSPORT xsi:type="xsd:string">' || P.PASS_SERIES ||  ' ' || P.PASS_NUMBER || ', ' || P.PASS_ISSUE || coalesce(' (' || P.PASS_ISSUE_CODE || ') ', '') || P.PASS_DATE || '</PACKAGE_MEMBER_INDIVIDUAL_PASSPORT>' --Паспортные данные (для ИП)
+        '<PACKAGE_MEMBER_INDIVIDUAL_REGISTRATION_ADDRESS xsi:type="xsd:string">' || P.PASS_ARRDESS || '</PACKAGE_MEMBER_INDIVIDUAL_REGISTRATION_ADDRESS>' || --РђРґСЂРµСЃ СЂРµРіРёСЃС‚СЂР°С†РёРё (РґР»СЏ РРџ)
+        '<PACKAGE_MEMBER_INDIVIDUAL_BIRTH_DAY xsi:type="xsd:dateTime">' || coalesce(P_BIRTH_DATE.RESULT, '') || '</PACKAGE_MEMBER_INDIVIDUAL_BIRTH_DAY>' || --Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ (РґР»СЏ РРџ)
+        '<PACKAGE_MEMBER_INDIVIDUAL_BIRTH_PLACE xsi:type="xsd:string">' || coalesce(P.BIRTH_PLACE, '') || '</PACKAGE_MEMBER_INDIVIDUAL_BIRTH_PLACE>' || --РњРµСЃС‚Рѕ СЂРѕР¶РґРµРЅРёСЏ (РґР»СЏ РРџ)
+        '<PACKAGE_MEMBER_INDIVIDUAL_PASSPORT xsi:type="xsd:string">' || P.PASS_SERIES ||  ' ' || P.PASS_NUMBER || ', ' || P.PASS_ISSUE || coalesce(' (' || P.PASS_ISSUE_CODE || ') ', '') || P.PASS_DATE || '</PACKAGE_MEMBER_INDIVIDUAL_PASSPORT>' --РџР°СЃРїРѕСЂС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ (РґР»СЏ РРџ)
   
       from PERSON P
       left join DATE_TIME_TO_STR(P.BIRTH_DATE, :D_FORMAT) P_BIRTH_DATE on 0=0
@@ -3428,14 +3428,14 @@ begin
         :SUB_XML || '</ip>';
     end
     else
-    begin --НЕ ИП
+    begin --РќР• РРџ
       XML = :XML || '<ul xsi:type="soap:ul" xmlns:soap="https://lkreestr.nostroy.ru/soap/"><PACKAGE_MEMBER_DIRECTOR xsi:type="xsd:string">' || :POSITION_HEAD || :FIO || '</PACKAGE_MEMBER_DIRECTOR></ul>' ||
         '<ip xsi:type="soap:ip" xmlns:soap="https://lkreestr.nostroy.ru/soap/">' ||
         '<PACKAGE_MEMBER_INDIVIDUAL_FIO xsi:type="xsd:string"></PACKAGE_MEMBER_INDIVIDUAL_FIO>' ||
-        '<PACKAGE_MEMBER_INDIVIDUAL_REGISTRATION_ADDRESS xsi:type="xsd:string"></PACKAGE_MEMBER_INDIVIDUAL_REGISTRATION_ADDRESS>' || --Адрес регистрации (для ИП)
-        '<PACKAGE_MEMBER_INDIVIDUAL_BIRTH_DAY xsi:type="xsd:dateTime"></PACKAGE_MEMBER_INDIVIDUAL_BIRTH_DAY>' || --Дата рождения (для ИП)
-        '<PACKAGE_MEMBER_INDIVIDUAL_BIRTH_PLACE xsi:type="xsd:string"></PACKAGE_MEMBER_INDIVIDUAL_BIRTH_PLACE>' || --Место рождения (для ИП)
-        '<PACKAGE_MEMBER_INDIVIDUAL_PASSPORT xsi:type="xsd:string"></PACKAGE_MEMBER_INDIVIDUAL_PASSPORT>' ||--Паспортные данные (для ИП)
+        '<PACKAGE_MEMBER_INDIVIDUAL_REGISTRATION_ADDRESS xsi:type="xsd:string"></PACKAGE_MEMBER_INDIVIDUAL_REGISTRATION_ADDRESS>' || --РђРґСЂРµСЃ СЂРµРіРёСЃС‚СЂР°С†РёРё (РґР»СЏ РРџ)
+        '<PACKAGE_MEMBER_INDIVIDUAL_BIRTH_DAY xsi:type="xsd:dateTime"></PACKAGE_MEMBER_INDIVIDUAL_BIRTH_DAY>' || --Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ (РґР»СЏ РРџ)
+        '<PACKAGE_MEMBER_INDIVIDUAL_BIRTH_PLACE xsi:type="xsd:string"></PACKAGE_MEMBER_INDIVIDUAL_BIRTH_PLACE>' || --РњРµСЃС‚Рѕ СЂРѕР¶РґРµРЅРёСЏ (РґР»СЏ РРџ)
+        '<PACKAGE_MEMBER_INDIVIDUAL_PASSPORT xsi:type="xsd:string"></PACKAGE_MEMBER_INDIVIDUAL_PASSPORT>' ||--РџР°СЃРїРѕСЂС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ (РґР»СЏ РРџ)
         '</ip>';
     end
 
@@ -3444,7 +3444,7 @@ begin
 
     with
       DICT as (
-        select 'Протокол Совета № ' as TEXT
+        select 'РџСЂРѕС‚РѕРєРѕР» РЎРѕРІРµС‚Р° в„– ' as TEXT
         from rdb$database
       ),
     
@@ -3474,15 +3474,15 @@ begin
       )
     
     select
-      '<status xsi:type="xsd:integer">' || AS_.CODE || '</status>' || --Статус права
-      '<basis xsi:type="xsd:string">' || DT.TEXT || P.NUMBER || '</basis>' || --Документ/№
-      '<issue_date xsi:type="xsd:dateTime">' || ISSUE_DATE.RESULT || '</issue_date>' || --Дата
-      '<is_simple xsi:type="xsd:boolean">' || trim(iif(mod(PR.INDEX_, 10) >= 1, 'true', 'false')) || '</is_simple>' || --Объекты капитального строительства
-      '<is_extremely_dangerous xsi:type="xsd:boolean">' || trim(iif(mod(PR.INDEX_, 10) >= 2, 'true', 'false')) || '</is_extremely_dangerous>' || --Особо-опасные, технически сложные и уникальные объекты
-      '<is_nuclear xsi:type="xsd:boolean">' || trim(iif(mod(PR.INDEX_, 10) = 3, 'true', 'false')) || '</is_nuclear>' || --Объекты использования атомной энергии
-      '<is_odo xsi:type="xsd:boolean">' || trim(iif(B.ID_FIRST_PROTOCOL_CONTRACT is not null, 'true', 'false')) || '</is_odo>' || --Наличие права на ОДО
-      '<odo_date xsi:type="xsd:dateTime">' || coalesce(ODO_DATE.RESULT, '') || '</odo_date>' || --Дата права на заключение договора
-      '<odo_basic xsi:type="xsd:string">' || coalesce(DT.TEXT || PC.NUMBER, '') || '</odo_basic>' --№ Документа
+      '<status xsi:type="xsd:integer">' || AS_.CODE || '</status>' || --РЎС‚Р°С‚СѓСЃ РїСЂР°РІР°
+      '<basis xsi:type="xsd:string">' || DT.TEXT || P.NUMBER || '</basis>' || --Р”РѕРєСѓРјРµРЅС‚/в„–
+      '<issue_date xsi:type="xsd:dateTime">' || ISSUE_DATE.RESULT || '</issue_date>' || --Р”Р°С‚Р°
+      '<is_simple xsi:type="xsd:boolean">' || trim(iif(mod(PR.INDEX_, 10) >= 1, 'true', 'false')) || '</is_simple>' || --РћР±СЉРµРєС‚С‹ РєР°РїРёС‚Р°Р»СЊРЅРѕРіРѕ СЃС‚СЂРѕРёС‚РµР»СЊСЃС‚РІР°
+      '<is_extremely_dangerous xsi:type="xsd:boolean">' || trim(iif(mod(PR.INDEX_, 10) >= 2, 'true', 'false')) || '</is_extremely_dangerous>' || --РћСЃРѕР±Рѕ-РѕРїР°СЃРЅС‹Рµ, С‚РµС…РЅРёС‡РµСЃРєРё СЃР»РѕР¶РЅС‹Рµ Рё СѓРЅРёРєР°Р»СЊРЅС‹Рµ РѕР±СЉРµРєС‚С‹
+      '<is_nuclear xsi:type="xsd:boolean">' || trim(iif(mod(PR.INDEX_, 10) = 3, 'true', 'false')) || '</is_nuclear>' || --РћР±СЉРµРєС‚С‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ Р°С‚РѕРјРЅРѕР№ СЌРЅРµСЂРіРёРё
+      '<is_odo xsi:type="xsd:boolean">' || trim(iif(B.ID_FIRST_PROTOCOL_CONTRACT is not null, 'true', 'false')) || '</is_odo>' || --РќР°Р»РёС‡РёРµ РїСЂР°РІР° РЅР° РћР”Рћ
+      '<odo_date xsi:type="xsd:dateTime">' || coalesce(ODO_DATE.RESULT, '') || '</odo_date>' || --Р”Р°С‚Р° РїСЂР°РІР° РЅР° Р·Р°РєР»СЋС‡РµРЅРёРµ РґРѕРіРѕРІРѕСЂР°
+      '<odo_basic xsi:type="xsd:string">' || coalesce(DT.TEXT || PC.NUMBER, '') || '</odo_basic>' --в„– Р”РѕРєСѓРјРµРЅС‚Р°
     from BASE B
     left join APPLICATION_STATUS AS_ on AS_.ID_APPLICATION_STATUS = B.ID_APPLICATION_STATUS
     left join PROTOCOL P on P.ID_PROTOCOL = B.ID_FIRST_PROTOCOL
@@ -3504,7 +3504,7 @@ begin
 
     with
       DICT as (
-        select 1000000 as INC, 'Протокол совета № ' as TEXT
+        select 1000000 as INC, 'РџСЂРѕС‚РѕРєРѕР» СЃРѕРІРµС‚Р° в„– ' as TEXT
         from rdb$database
       ),
     
@@ -3544,16 +3544,16 @@ begin
     SUB_XML = null;
 
     select list('<insurance xsi:type="soap:insurance">' ||
-      '<type xsi:type="xsd:string">1</type>' || --Тип страхования индивидуальный/коллективный
-      '<object xsi:type="xsd:string">' || coalesce(IS_.CODE, '') || '</object>' || --Предмет договора страхования
-      '<contractnumber xsi:type="xsd:string">' || coalesce(OI.DOC_NUMBER, '') || '</contractnumber>' || --Номер договора страхования (Полис)
-      '<begindate xsi:type="xsd:dateTime">' || BEGIN_DATE.RESULT || '</begindate>' || --Начало действия договора
-      '<enddate xsi:type="xsd:dateTime">' || END_DATE.RESULT || '</enddate>' || --Окончание действия договора
-      '<insurancesumm xsi:type="xsd:double">' || SUMM.RESULT || '</insurancesumm>' || --Размер страховой суммы
-      '<insurer xsi:type="xsd:string">' || NAME.RESULT || '</insurer>' || --Наименование Страховщика
-      '<license xsi:type="xsd:string">' || I.NUMBER || '</license>' || --Лицензия
-      '<place xsi:type="xsd:string">' || coalesce(PLACE.RESULT, '') || '</place>' || --Местонахождение
-      '<phone xsi:type="xsd:string">' || coalesce(I.PHONE, '') || '</phone>' || --Контактные телефоны
+      '<type xsi:type="xsd:string">1</type>' || --РўРёРї СЃС‚СЂР°С…РѕРІР°РЅРёСЏ РёРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Р№/РєРѕР»Р»РµРєС‚РёРІРЅС‹Р№
+      '<object xsi:type="xsd:string">' || coalesce(IS_.CODE, '') || '</object>' || --РџСЂРµРґРјРµС‚ РґРѕРіРѕРІРѕСЂР° СЃС‚СЂР°С…РѕРІР°РЅРёСЏ
+      '<contractnumber xsi:type="xsd:string">' || coalesce(OI.DOC_NUMBER, '') || '</contractnumber>' || --РќРѕРјРµСЂ РґРѕРіРѕРІРѕСЂР° СЃС‚СЂР°С…РѕРІР°РЅРёСЏ (РџРѕР»РёСЃ)
+      '<begindate xsi:type="xsd:dateTime">' || BEGIN_DATE.RESULT || '</begindate>' || --РќР°С‡Р°Р»Рѕ РґРµР№СЃС‚РІРёСЏ РґРѕРіРѕРІРѕСЂР°
+      '<enddate xsi:type="xsd:dateTime">' || END_DATE.RESULT || '</enddate>' || --РћРєРѕРЅС‡Р°РЅРёРµ РґРµР№СЃС‚РІРёСЏ РґРѕРіРѕРІРѕСЂР°
+      '<insurancesumm xsi:type="xsd:double">' || SUMM.RESULT || '</insurancesumm>' || --Р Р°Р·РјРµСЂ СЃС‚СЂР°С…РѕРІРѕР№ СЃСѓРјРјС‹
+      '<insurer xsi:type="xsd:string">' || NAME.RESULT || '</insurer>' || --РќР°РёРјРµРЅРѕРІР°РЅРёРµ РЎС‚СЂР°С…РѕРІС‰РёРєР°
+      '<license xsi:type="xsd:string">' || I.NUMBER || '</license>' || --Р›РёС†РµРЅР·РёСЏ
+      '<place xsi:type="xsd:string">' || coalesce(PLACE.RESULT, '') || '</place>' || --РњРµСЃС‚РѕРЅР°С…РѕР¶РґРµРЅРёРµ
+      '<phone xsi:type="xsd:string">' || coalesce(I.PHONE, '') || '</phone>' || --РљРѕРЅС‚Р°РєС‚РЅС‹Рµ С‚РµР»РµС„РѕРЅС‹
       '</insurance>', '')
     from REGISTER R
     left join ORGANIZATION_INSURANCE OI on OI.ID_ORGANIZATION_ = R.ID_ORGANIZATION_
@@ -3576,16 +3576,16 @@ begin
     SUB_XML = null;
 
     select list('<check xsi:type="soap:check">' ||
-      '<member_check_type xsi:type="xsd:integer">' || C.INDEX_ || '</member_check_type>' || --Тип проверки
-      '<member_check_result xsi:type="xsd:integer">' || (CR.IS_VIOLATIONS + 1) || '</member_check_result>' || --Результат проверки
-      '<disciplinary_action xsi:type="xsd:integer">' || (2 - RC.IS_INTERVENTION) || '</disciplinary_action>' || --Меры дисциплинарного воздействия
-      '<checkdate xsi:type="xsd:dateTime">' || CHECK_DATE.RESULT || '</checkdate>' || --Дата проверки
+      '<member_check_type xsi:type="xsd:integer">' || C.INDEX_ || '</member_check_type>' || --РўРёРї РїСЂРѕРІРµСЂРєРё
+      '<member_check_result xsi:type="xsd:integer">' || (CR.IS_VIOLATIONS + 1) || '</member_check_result>' || --Р РµР·СѓР»СЊС‚Р°С‚ РїСЂРѕРІРµСЂРєРё
+      '<disciplinary_action xsi:type="xsd:integer">' || (2 - RC.IS_INTERVENTION) || '</disciplinary_action>' || --РњРµСЂС‹ РґРёСЃС†РёРїР»РёРЅР°СЂРЅРѕРіРѕ РІРѕР·РґРµР№СЃС‚РІРёСЏ
+      '<checkdate xsi:type="xsd:dateTime">' || CHECK_DATE.RESULT || '</checkdate>' || --Р”Р°С‚Р° РїСЂРѕРІРµСЂРєРё
       '</check>', '')
     from REGISTER R
     join REGISTER_CHECK RC on RC.ID_REGISTER = R.ID_REGISTER
     left join CHECK_RESULT CR on CR.ID_CHECK_RESULT = RC.ID_CHECK_RESULT
     left join TYPE_CHECK TC on TC.ID_TYPE_CHECK = RC.ID_TYPE_CHECK
-    left join SENTENCE_TO_TABLE('Плановая,Внеплановая') C on C.WORD = TC.NAME
+    left join SENTENCE_TO_TABLE('РџР»Р°РЅРѕРІР°СЏ,Р’РЅРµРїР»Р°РЅРѕРІР°СЏ') C on C.WORD = TC.NAME
     left join DATE_TIME_TO_STR(RC.DATE_, :D_FORMAT) CHECK_DATE on 0=0
     where R.ID_REGISTER = :ID_REGISTER
     into :SUB_XML;
