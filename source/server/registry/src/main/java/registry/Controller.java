@@ -1,9 +1,14 @@
 package registry;
 
+import org.springframework.core.io.Resource;
 import dataBase.DataBase;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 
 
@@ -27,4 +32,16 @@ public class Controller {
         return DataBase.executeQuery(conn, query);
     }
 
+    @RequestMapping(path = "/report/{report_id}")
+    public ResponseEntity<Resource> getReport(@PathVariable("report_id") String report_id) {
+
+        String data = "report with id = " + report_id;
+        ByteArrayResource resource = new ByteArrayResource(data.getBytes(StandardCharsets.UTF_8));
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + report_id + ".doc")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentLength(resource.contentLength())
+                .body(resource);
+    }
 }
