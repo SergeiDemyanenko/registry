@@ -1,11 +1,11 @@
 import React from 'react';
 
-export class Header extends React.Component{
+export class Reports extends React.Component{
 
     render(){
         return (
             <div>
-               {this.props.header}
+               <p>This is "Отчеты"</p>
             </div>
         )
     }
