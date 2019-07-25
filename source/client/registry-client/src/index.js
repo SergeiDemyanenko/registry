@@ -6,10 +6,14 @@ import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto';
 import {Provider} from 'react-redux';
 import store from './store';
+import { BrowserRouter as Router, withRouter} from 'react-router-dom';
 
+const AppWithRouter = withRouter(props => <App {...props}/>);
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Router>
+             <AppWithRouter />
+        </Router>
     </Provider>, 
     document.getElementById('root')
 );
