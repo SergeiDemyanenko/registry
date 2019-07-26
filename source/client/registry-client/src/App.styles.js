@@ -1,4 +1,5 @@
 const drawerWidth = 240;
+
 export default theme => ({
   root: {
     display: 'flex',
@@ -28,5 +29,8 @@ export default theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
   },
 });

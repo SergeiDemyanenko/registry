@@ -15,35 +15,54 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import appStyles from './App.styles';
-import leftMenuItems from './MenuItems';
+// import leftMenuItems from './MenuItems';
 import { Route, Link } from 'react-router-dom';
 import { Documents } from './components/Documents';
 import { Reports } from './components/Reports';
 import { Directory }  from './components/Directory';
 import { Settings } from './components/Settings';
 import { Help } from './components/Help';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
+let open = false;
 class App extends React.Component {
   render(){
+
     const { classes } = this.props;
+
     const drawer = (
       <div>
         <div className={classes.toolbar} />
         <Divider />
         <List>
-            {leftMenuItems.map((leftMenuItem) => (
-              <Link to={leftMenuItem.link} style={{textDecoration: 'none'}}>
-                <ListItem button key={leftMenuItem.title} 
+            {this.props.app.leftMenuItems.map((leftMenuItem, i) => 
+            <div key={leftMenuItem.title}>
+                <ListItem button  key={leftMenuItem.title}
+                  onClick={() => { this.props.toggleLeftMenuItem(i) }}
                   selected={this.props.location.pathname === leftMenuItem.link}>    
                   <ListItemIcon>{leftMenuItem.icon}</ListItemIcon>
                   <ListItemText primary={leftMenuItem.title} />
+                  {leftMenuItem.isExpanded ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
-            </Link>
-          ))}
+                <Collapse in={leftMenuItem.isExpanded} timeout="auto" unmountOnExit>
+                  <List>
+                    {leftMenuItem.nestedItems.map(nestedItem => (
+                      <Link to={nestedItem.link} style={{textDecoration: 'none'}} key={nestedItem.title}>
+                        <ListItem button className={classes.nested}>
+                          <ListItemIcon>{nestedItem.icon}</ListItemIcon>
+                          <ListItemText primary={nestedItem.title}/>
+                        </ListItem>
+                      </Link>
+                    ))}
+                  </List>
+                </Collapse>
+            </div>
+          )}
         </List>
       </div>
     );
-
     return (
           <div className={classes.root}>
           <AppBar position="fixed" className={classes.appBar}>
@@ -122,6 +141,12 @@ const mapDispatchToProps = (dispatch) => {
     toggleLeftMenu: () => {
       dispatch({
         type: 'TOGGLE_LEFT_MENU',
+      })
+    },
+    toggleLeftMenuItem: (index) => {
+      dispatch({
+        type: 'TOGGLE_LEFT_MENU_ITEM',
+        payload: index
       })
     }
   }
