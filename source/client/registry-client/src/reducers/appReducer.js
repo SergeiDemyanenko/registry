@@ -15,7 +15,31 @@ const initialAppState = {
           link: '/directory',
           isExpanded: false,
           nestedItems: [
-              new LeftMenuItem('nested1', <LibraryIcon color="primary"/>,'/directory/nested1')
+              new LeftMenuItem('Физические лица', <LibraryIcon color="primary"/>, '/directory/person'),
+              new LeftMenuItem('Правовые формы', <LibraryIcon color="primary"/>,'/directory/legalforms'),
+              new LeftMenuItem('Регистрирующий орган', <LibraryIcon color="primary"/>,'/directory/organissued'),
+              new LeftMenuItem('Статус заявки', <LibraryIcon color="primary"/>,'/directory/applicationstatus'),
+              new LeftMenuItem('Характеристики',  <LibraryIcon color="primary"/>,'/directory/characteristics'),
+              new LeftMenuItem('Нарушения', <LibraryIcon color="primary"/>,'/directory/infrigements'),
+              new LeftMenuItem('Уровень ВВ', <LibraryIcon color="primary"/>,'/directory/levelharm'),
+              new LeftMenuItem('Уровень ОДО', <LibraryIcon color="primary"/>,'/directory/levelcontract'),
+              new LeftMenuItem('Меры воздействия', <LibraryIcon color="primary"/>,'/directory/measures'),
+              new LeftMenuItem('Основания для исключения', <LibraryIcon color="primary"/>,'/directory/expulsion'),
+              new LeftMenuItem('Тип опасности работ', <LibraryIcon color="primary"/>,'/directory/perilous'),
+              new LeftMenuItem('Лимит', <LibraryIcon color="primary"/>,'/directory/limit'),
+              new LeftMenuItem('Компенсационный фонд ВВ', <LibraryIcon color="primary"/>,'/directory/fundsumharm'),
+              new LeftMenuItem('Компенсанционный фонд ОДО', <LibraryIcon color="primary"/>,'/directory/fundsumcontact'),
+              new LeftMenuItem('Предмет договора страхования', <LibraryIcon color="primary"/>,'/directory/insurancesubject'),
+              new LeftMenuItem('Страховые', <LibraryIcon color="primary"/>,'/directory/insurance'),
+              new LeftMenuItem('Вид проверки', <LibraryIcon color="primary"/>,'/directory/statuscheck'),
+              new LeftMenuItem('Орган СРО', <LibraryIcon color="primary"/>,'/directory/department'),
+              new LeftMenuItem('Обьем работ', <LibraryIcon color="primary"/>,'/directory/scopework'),
+              new LeftMenuItem('Статус заявки', <LibraryIcon color="primary"/>,'/directory/applicationstatus'),
+              new LeftMenuItem('Результат проверки', <LibraryIcon color="primary"/>,'/directory/checkresult'),
+              new LeftMenuItem('Регионы', <LibraryIcon color="primary"/>,'/directory/regions'),
+              new LeftMenuItem('Протоколы', <LibraryIcon color="primary"/>,'/directory/protocols'),
+              new LeftMenuItem('Вид работ', <LibraryIcon color="primary"/>,'/directory/typeofwork'),
+
           ]
         },
         {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Reports } from './Reports';
 import { Route } from 'react-router-dom';
 
 export class Directory extends React.Component{
