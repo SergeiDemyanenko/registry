@@ -31,6 +31,11 @@ export default theme => ({
     padding: theme.spacing(3),
   },
   nested: {
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(10),
   },
+
+  link:{
+    color: 'inherit',
+    textDecoration: 'none',
+  }
 });

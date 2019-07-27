@@ -26,7 +26,6 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-let open = false;
 class App extends React.Component {
   render(){
 
@@ -49,9 +48,8 @@ class App extends React.Component {
                 <Collapse in={leftMenuItem.isExpanded} timeout="auto" unmountOnExit>
                   <List>
                     {leftMenuItem.nestedItems.map(nestedItem => (
-                      <Link to={nestedItem.link} style={{textDecoration: 'none'}} key={nestedItem.title}>
+                      <Link to={nestedItem.link} className={classes.link} key={nestedItem.title}>
                         <ListItem button className={classes.nested}>
-                          <ListItemIcon>{nestedItem.icon}</ListItemIcon>
                           <ListItemText primary={nestedItem.title}/>
                         </ListItem>
                       </Link>
