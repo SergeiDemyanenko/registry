@@ -4,6 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @FunctionalInterface
-public interface GetResultFromSet<T> {
-    T get(ResultSet resultSet) throws SQLException;
+public interface GetResultSet {
+    void get(ResultSet resultSet) throws SQLException;
 }
