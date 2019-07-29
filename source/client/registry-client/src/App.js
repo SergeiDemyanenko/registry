@@ -15,16 +15,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import appStyles from './App.styles';
-// import leftMenuItems from './MenuItems';
 import { Route, Link } from 'react-router-dom';
-import { Documents } from './components/Documents';
-import { Reports } from './components/Reports';
-import { Directory }  from './components/Directory';
-import { Settings } from './components/Settings';
-import { Help } from './components/Help';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import { DirectoryRoutes } from './routes/DirectoryRoutes';
 
 class App extends React.Component {
   render(){
@@ -111,11 +106,7 @@ class App extends React.Component {
           </nav>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            <Route path="/directory/" component={Directory}/>
-            <Route path="/documents/" component={Documents}/>
-            <Route path="/reports/" component={Reports}/>
-            <Route path="/settings/" component={Settings}/>
-            <Route path="/help/" component={Help}/>
+            <Route path="/directory" component={DirectoryRoutes} />
           </main>
         </div>
     );

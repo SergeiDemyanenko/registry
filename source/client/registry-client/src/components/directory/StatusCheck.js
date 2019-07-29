@@ -1,11 +1,11 @@
 import React from 'react';
 
-export class Settings extends React.Component{
+export class StatusCheck extends React.Component{
 
     render(){
         return (
             <div>
-               <p>This is "Настройки"</p>
+               <p>This is "Вид проверки"</p>
             </div>
         )
     }

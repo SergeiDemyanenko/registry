@@ -1,11 +1,11 @@
 import React from 'react';
 
-export class Reports extends React.Component{
+export class Regions extends React.Component{
 
     render(){
         return (
             <div>
-               <p>This is "Отчеты"</p>
+               <p>This is "Регионы"</p>
             </div>
         )
     }
