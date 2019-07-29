@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import report.Report;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
@@ -29,14 +30,14 @@ public class Controller {
     public String person () {
         Connection conn = DataBase.getConnection();
         String query = "SELECT  * from PERSON";
-        return DataBase.executeQuery(conn, query);
+        return DataBase.getJsonFromSQL(conn, query);
     }
 
     @RequestMapping(path = "/report/{report_id}")
     public ResponseEntity<Resource> getReport(@PathVariable("report_id") String report_id) {
 
-        String data = "report with id = " + report_id;
-        ByteArrayResource resource = new ByteArrayResource(data.getBytes(StandardCharsets.UTF_8));
+        String result = Report.createReport(DataBase.getConnection(), Long.valueOf(report_id));
+        ByteArrayResource resource = new ByteArrayResource(result.getBytes(StandardCharsets.UTF_8));
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + report_id + ".doc")
