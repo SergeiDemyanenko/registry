@@ -25,16 +25,38 @@ public class DataBase {
         return connection;
     }
 
-    public static String executeQuery(Connection connection, String sqlQuery) {
-        ResultSet result;
-        JSONArray jsonArray = new JSONArray();
-        List<JSONObject> jsonList = new ArrayList<>();
-        ResultSetMetaData rsmd;
+    public static <T> T getResultFromSQL(Connection connection, String sql, GetParameterValue<T> getParameterValue, GetResultFromSet<T> getResultFromSet) throws SQLException {
+        T result = null;
+
+        if (connection != null && !connection.isClosed()) {
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                if (getParameterValue != null) {
+                    for (int i = 0; i < statement.getParameterMetaData().getParameterCount(); i++) {
+                        statement.setObject(i, getParameterValue.get(statement.getParameterMetaData(), i));
+                    }
+                }
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    result = getResultFromSet.get(resultSet);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static <T> T getResultFromSQL(Connection connection, String sql, GetResultFromSet<T> getResultFromSet) throws SQLException {
+        return getResultFromSQL(connection, sql, null, getResultFromSet);
+    }
+
+    public static String getJsonFromSQL(Connection connection, String sql) {
         try {
-            if (connection != null && !connection.isClosed()) {
-                Statement statement = connection.createStatement();
-                result = statement.executeQuery(sqlQuery);
-                rsmd = result.getMetaData();
+            return getResultFromSQL(connection, sql, resultSet -> {
+                JSONArray jsonArray = new JSONArray();
+                List<JSONObject> jsonList = new ArrayList<>();
+                ResultSetMetaData rsmd;
+
+                rsmd = resultSet.getMetaData();
                 int columnNumber = rsmd.getColumnCount();
                 if (columnNumber == 0) {
                     throw new SQLException("Table does not exist");
@@ -44,27 +66,26 @@ public class DataBase {
                 for (int i = 1; i <= columnNumber; i++) {
                     header.add(rsmd.getColumnName(i));
                 }
-                while (result.next()) {
+                while (resultSet.next()) {
                     json = new JSONObject();
                     for (int i = 1; i <= columnNumber; i++) {
-                        if (result.getString(i) != null && !header.get(i-1).startsWith("ID")) {
-                            json.put(header.get(i - 1), result.getString(i));
+                        if (resultSet.getString(i) != null && !header.get(i-1).startsWith("ID")) {
+                            json.put(header.get(i - 1), resultSet.getString(i));
                         }
                     }
                     jsonList.add(json);
                 }
-                statement.close();
-                result.close();
-            }
 
+                for(JSONObject item : jsonList) {
+                    jsonArray.put(item);
+                }
+
+                return jsonArray.toString();
+            });
         } catch (SQLException e) {
             System.out.println("Requet was not completed: \n" + e.getMessage());
         }
 
-        for(JSONObject json: jsonList) {
-            jsonArray.put(json);
-        }
-
-        return jsonArray.toString();
+        return null;
     }
 }
