@@ -1,10 +1,10 @@
 import React from 'react';
 
-export class Documents extends React.Component{
+export class LegalForms extends React.Component{
     render() {
         return (
             <div>
-                <p>This is "Документы"</p>
+                <p>This is "Правовые формы</p>
             </div>
         )
     }

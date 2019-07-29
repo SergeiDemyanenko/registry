@@ -1,11 +1,11 @@
 import React from 'react';
 
-export class Help extends React.Component{
+export class Infrigements extends React.Component{
 
     render(){
         return (
             <div>
-               <p>This is "Помощь"</p>
+               <p>This is "Нарушения"</p>
             </div>
         )
     }
