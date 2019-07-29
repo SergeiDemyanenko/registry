@@ -25,9 +25,7 @@ public class DataBase {
         return connection;
     }
 
-    public static <T> T getResultFromSQL(Connection connection, String sql, GetParameterValue<T> getParameterValue, GetResultFromSet<T> getResultFromSet) throws SQLException {
-        T result = null;
-
+    public static <T> void getResultFromSQL(Connection connection, String sql, GetParameterValue<T> getParameterValue, GetResultSet getResultSet) throws SQLException {
         if (connection != null && !connection.isClosed()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 if (getParameterValue != null) {
@@ -37,22 +35,21 @@ public class DataBase {
                 }
 
                 try (ResultSet resultSet = statement.executeQuery()) {
-                    result = getResultFromSet.get(resultSet);
+                    getResultSet.get(resultSet);
                 }
             }
         }
-
-        return result;
     }
 
-    public static <T> T getResultFromSQL(Connection connection, String sql, GetResultFromSet<T> getResultFromSet) throws SQLException {
-        return getResultFromSQL(connection, sql, null, getResultFromSet);
+    public static void getResultFromSQL(Connection connection, String sql, GetResultSet getResultSet) throws SQLException {
+        getResultFromSQL(connection, sql, null, getResultSet);
     }
 
     public static String getJsonFromSQL(Connection connection, String sql) {
         try {
-            return getResultFromSQL(connection, sql, resultSet -> {
-                JSONArray jsonArray = new JSONArray();
+            JSONArray jsonArray = new JSONArray();
+
+            getResultFromSQL(connection, sql, resultSet -> {
                 List<JSONObject> jsonList = new ArrayList<>();
                 ResultSetMetaData rsmd;
 
@@ -79,9 +76,9 @@ public class DataBase {
                 for(JSONObject item : jsonList) {
                     jsonArray.put(item);
                 }
-
-                return jsonArray.toString();
             });
+
+            return jsonArray.toString();
         } catch (SQLException e) {
             System.out.println("Requet was not completed: \n" + e.getMessage());
         }
