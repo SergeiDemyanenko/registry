@@ -1,7 +1,7 @@
 package registry;
 
 import org.springframework.core.io.Resource;
-import dataBase.DataBase;
+import controller.DataBase;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

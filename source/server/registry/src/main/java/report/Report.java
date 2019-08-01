@@ -1,6 +1,6 @@
 package report;
 
-import dataBase.DataBase;
+import controller.DataBase;
 
 import java.sql.Connection;
 import java.sql.ParameterMetaData;

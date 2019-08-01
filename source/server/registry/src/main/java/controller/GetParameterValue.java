@@ -1,4 +1,4 @@
-package dataBase;
+package controller;
 
 import java.sql.ParameterMetaData;
 import java.sql.SQLException;
