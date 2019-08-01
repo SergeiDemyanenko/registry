@@ -15,7 +15,6 @@ export { Limit } from './Limit';
 export { Measures } from './Measures';
 export { OrganIssued } from './OrganIssued';
 export { Perilous } from './Perilous';
-export { Person } from './Person';
 export { Protocols } from './Protocols';
 export { Regions } from './Regions';
 export { ScopeWork } from './ScopeWork';

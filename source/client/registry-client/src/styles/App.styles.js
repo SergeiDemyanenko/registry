@@ -28,7 +28,9 @@ export default theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    width: 'calc(100vw - 288px)',
   },
   nested: {
     paddingLeft: theme.spacing(10),

@@ -14,7 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import appStyles from './App.styles';
+import appStyles from './styles/App.styles';
 import { Route, Link } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -67,7 +67,7 @@ class App extends React.Component {
                 onClick={this.props.toggleLeftMenu}
                 className={classes.menuButton}
               >
-                <MenuIcon />
+              <MenuIcon />
               </IconButton>
               <Typography variant="h6" noWrap>
                 Registry Client
