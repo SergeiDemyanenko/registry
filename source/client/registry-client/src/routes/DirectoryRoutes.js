@@ -18,13 +18,13 @@ import {
     Measures,
     OrganIssued,
     Perilous,
-    Person,
     Protocols,
     Regions,
     ScopeWork,
     StatusCheck,
     TypeOfWork
 } from '../components/directory';
+import Person from '../components/directory/Person'
 
 
 export const DirectoryRoutes = ({ match }) => {
