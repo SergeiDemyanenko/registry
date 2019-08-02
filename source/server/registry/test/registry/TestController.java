@@ -1,5 +1,6 @@
-package controller;
+package registry;
 
+import controller.DataBase;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -11,7 +12,7 @@ import java.sql.*;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
-public class TestPerson {
+public class TestController {
 
     @InjectMocks
     private DataBase dataBase = mock(DataBase.class);
