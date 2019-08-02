@@ -40,7 +40,6 @@ public class TestPerson {
         when(rsmd.getCatalogName(1)).thenReturn("Person1");
         when(rsmd.getCatalogName(2)).thenReturn("Person2");
         when(rsmd.getCatalogName(3)).thenReturn("Person3");
-        //when(dataBase.getJsonFromSQL(mockConnection, "SELECT  * from PERSON")).thenReturn("list of users provided");
 
         assertEquals(dataBase.getJsonFromSQL(mockConnection, "SELECT  * from PERSON"), "[{},{}]");
 
