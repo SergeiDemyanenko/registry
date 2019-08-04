@@ -1,6 +1,6 @@
 package registry;
 
-import controller.DataBase;
+import dataBase.DataBase;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -38,11 +38,15 @@ public class TestController {
         when(rs.getMetaData()).thenReturn(rsmd);
         when(rsmd.getColumnCount()).thenReturn(3);
         when(rs.next()).thenReturn(true).thenReturn(true).thenReturn(false);
-        when(rsmd.getCatalogName(1)).thenReturn("Person1");
-        when(rsmd.getCatalogName(2)).thenReturn("Person2");
-        when(rsmd.getCatalogName(3)).thenReturn("Person3");
+        when(rsmd.getColumnName(1)).thenReturn("Name");
+        when(rsmd.getColumnName(2)).thenReturn("LastName");
+        when(rsmd.getColumnName(3)).thenReturn("Phone");
+        when(rs.getString(1)).thenReturn("Phill");
+        when(rs.getString(2)).thenReturn("Andersen");
+        when(rs.getString(3)).thenReturn("12345");
 
-        assertEquals(dataBase.getJsonFromSQL(mockConnection, "SELECT  * from PERSON"), "[{},{}]");
+        assertEquals(dataBase.getJsonFromSQL(mockConnection, "SELECT  * from PERSON"),
+                "[{\"Phone\":\"12345\",\"LastName\":\"Andersen\",\"Name\":\"Phill\"},{\"Phone\":\"12345\",\"LastName\":\"Andersen\",\"Name\":\"Phill\"}]");
 
     }
 
