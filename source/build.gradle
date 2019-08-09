@@ -1,0 +1,25 @@
+allprojects {
+    apply plugin: "idea"
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = 'http://repo.maven.apache.org/maven2'
+    }
+}
+
+//DB project specific staff
+project(':db') {
+    task helloDB { task -> println "this is data base"}
+}
+
+//Client Project specific stuff
+project(':client') {
+    task helloClient { task -> println "this is client"}
+}
+
+//Server Project specific stuff
+project(':server.registry') {
+    apply plugin: "java"
+}
