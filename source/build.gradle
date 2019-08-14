@@ -3,6 +3,8 @@ allprojects {
     apply plugin: "war"
 }
 
+//include "client.registry-client", "db", "server.registry"
+
 repositories {
     mavenLocal()
     maven {
@@ -17,10 +19,14 @@ project(':db') {
 
 //Client Project specific stuff
 project(':client') {
+    apply plugin: "war"
     task helloClient { task -> println "this is client"}
 }
 
 //Server Project specific stuff
-project(':server.registry') {
+project(':server') {
     apply plugin: "java"
+    subprojects {
+        apply plugin: "java"
+    }
 }
