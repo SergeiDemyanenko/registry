@@ -1,9 +1,10 @@
 package registry;
 
-import org.springframework.boot.SpringApplication;
+import dataBase.DataBase;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.InputStream;
+import java.sql.Connection;
 import java.util.Properties;
 
 @SpringBootApplication
@@ -12,7 +13,10 @@ public class Application {
 
     public static void main(String[] args) throws Exception {
         initProperties();
-        SpringApplication.run(Application.class, args);
+//        SpringApplication.run(Application.class, args);
+        DataBase dataBase = new DataBase();
+        Connection connection = DataBase.getConnection();
+        System.out.println(dataBase.getJsonFromSQL(connection, "SELECT  * from PERSON"));
     }
 
     private static void initProperties() throws Exception {
