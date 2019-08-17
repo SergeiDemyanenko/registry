@@ -17,7 +17,10 @@ export default theme => ({
     },
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    color: "inherit",
+    ariaLabel: "Open drawer",
+    edge: "start",
+    marginRight:theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },

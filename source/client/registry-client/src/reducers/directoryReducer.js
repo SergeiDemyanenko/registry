@@ -1,6 +1,7 @@
 const initialDirectoryState = {
     peopleLoading: false,
-    people: []
+    people: [],
+    columns: [],
 }
 
 export default (state = initialDirectoryState, action) => {
@@ -17,7 +18,12 @@ export default (state = initialDirectoryState, action) => {
                 peopleLoading: action.payload
             };
             break;
-        // add case for SET_PEOPLE_LOADING
+        case 'SET_COLUMNS':
+            state = {
+                ...state,
+                columns: action.payload
+            };
+            break;
         default: 
         return state;
     }
