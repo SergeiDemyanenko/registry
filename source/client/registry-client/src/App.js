@@ -61,12 +61,8 @@ class App extends React.Component {
           <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
               <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                edge="start"
                 onClick={this.props.toggleLeftMenu}
-                className={classes.menuButton}
-              >
+                className={classes.menuButton}>
               <MenuIcon />
               </IconButton>
               <Typography variant="h6" noWrap>
