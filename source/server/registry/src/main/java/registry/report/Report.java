@@ -1,7 +1,6 @@
 package registry.report;
 
 import com.google.common.base.Strings;
-import org.springframework.data.domain.Example;
 import registry.dataBase.DataBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -11,7 +10,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component
 public class Report {
