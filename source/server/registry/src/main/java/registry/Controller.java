@@ -1,20 +1,27 @@
 package registry;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import dataBase.DataBase;
+import registry.dataBase.DataBase;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import report.Report;
+import registry.report.Report;
 
+import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 
 
 @RestController
 public class Controller {
+
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
+    private Report report;
 
     @RequestMapping("/")
     public String index() {
@@ -30,13 +37,13 @@ public class Controller {
     public String person () {
         Connection conn = DataBase.getConnection();
         String query = "SELECT  * from PERSON";
-        return DataBase.getJsonFromSQL(conn, query);
+        return DataBase.getJsonFromSQL(dataSource, query);
     }
 
     @RequestMapping(path = "/report/{report_id}")
     public ResponseEntity<Resource> getReport(@PathVariable("report_id") String report_id) {
 
-        String result = Report.createReport(DataBase.getConnection(), Long.valueOf(report_id));
+        String result = this.report.createReport(Long.valueOf(report_id));
         ByteArrayResource resource = new ByteArrayResource(result.getBytes(StandardCharsets.UTF_8));
 
         return ResponseEntity.ok()

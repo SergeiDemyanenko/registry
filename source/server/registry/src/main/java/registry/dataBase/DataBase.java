@@ -1,13 +1,36 @@
-package dataBase;
+package registry.dataBase;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.jdbc.core.namedparam.*;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataBase {
+
+    private static class GetParameterValueWrapper implements SqlParameterSource {
+
+        private GetParameterValue getParameterValue;
+
+        public GetParameterValueWrapper(GetParameterValue getParameterValue) {
+            this.getParameterValue = getParameterValue;
+        }
+
+        @Override
+        public boolean hasValue(String paramName) {
+            return this.getParameterValue != null;
+        }
+
+        @Override
+        public Object getValue(String paramName) throws IllegalArgumentException {
+            return getParameterValue.get(paramName);
+        }
+    }
 
     private static final String URL_PROP_NAME = "database";
 
@@ -25,33 +48,24 @@ public class DataBase {
         return connection;
     }
 
-    public static <T> void getResultFromSQL(Connection connection, String sql, GetParameterValue<T> getParameterValue, GetResultSet getResultSet) throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                if (getParameterValue != null) {
-                    for (int i = 0; i < statement.getParameterMetaData().getParameterCount(); i++) {
-                        statement.setObject(i, getParameterValue.get(statement.getParameterMetaData(), i));
-                    }
-                }
+    public static void getResultFromSQL(DataSource dataSource, String sql, GetParameterValue getParameterValue, GetResultSet<SqlRowSet> getResultSet) throws SQLException {
 
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    getResultSet.get(resultSet);
-                }
-            }
-        }
+        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(sql, new GetParameterValueWrapper(getParameterValue));
+        getResultSet.get(sqlRowSet);
     }
 
-    public static void getResultFromSQL(Connection connection, String sql, GetResultSet getResultSet) throws SQLException {
-        getResultFromSQL(connection, sql, null, getResultSet);
+    public static void getResultFromSQL(DataSource dataSource, String sql, GetResultSet<SqlRowSet> getResultSet) throws SQLException {
+        getResultFromSQL(dataSource, sql, null, getResultSet);
     }
 
-    public static String getJsonFromSQL(Connection connection, String sql) {
+    public static String getJsonFromSQL(DataSource dataSource, String sql) {
         try {
             JSONArray jsonArray = new JSONArray();
 
-            getResultFromSQL(connection, sql, resultSet -> {
+            getResultFromSQL(dataSource, sql, resultSet -> {
                 List<JSONObject> jsonList = new ArrayList<>();
-                ResultSetMetaData rsmd;
+                SqlRowSetMetaData rsmd;
 
                 rsmd = resultSet.getMetaData();
                 int columnNumber = rsmd.getColumnCount();
