@@ -32,22 +32,6 @@ public class DataBase {
         }
     }
 
-    private static final String URL_PROP_NAME = "database";
-
-    private static Connection connection = null;
-
-    public static synchronized Connection getConnection() {
-        try {
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(System.getProperty(URL_PROP_NAME), System.getProperties());
-                System.out.println("Connection has been established");
-            }
-        } catch (SQLException e) {
-            System.out.println("Was not able to set up connection: \n" + e.getMessage());
-        }
-        return connection;
-    }
-
     public static void getResultFromSQL(DataSource dataSource, String sql, GetParameterValue getParameterValue, GetResultSet<SqlRowSet> getResultSet) throws SQLException {
 
         NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -61,38 +45,22 @@ public class DataBase {
 
     public static String getJsonFromSQL(DataSource dataSource, String sql) {
         try {
-            JSONArray jsonArray = new JSONArray();
+            JSONArray result = new JSONArray();
 
             getResultFromSQL(dataSource, sql, resultSet -> {
-                List<JSONObject> jsonList = new ArrayList<>();
-                SqlRowSetMetaData rsmd;
-
-                rsmd = resultSet.getMetaData();
-                int columnNumber = rsmd.getColumnCount();
-                if (columnNumber == 0) {
-                    throw new SQLException("Table does not exist");
-                }
-                JSONObject json;
-                ArrayList<String> header = new ArrayList<String>();
-                for (int i = 1; i <= columnNumber; i++) {
-                    header.add(rsmd.getColumnName(i));
-                }
+                String[] columnNames = resultSet.getMetaData().getColumnNames();
                 while (resultSet.next()) {
-                    json = new JSONObject();
-                    for (int i = 1; i <= columnNumber; i++) {
-                        if (resultSet.getString(i) != null && !header.get(i-1).startsWith("ID")) {
-                            json.put(header.get(i - 1), resultSet.getString(i));
+                    JSONObject json = new JSONObject();
+                    for (int i = 1; i <= columnNames.length; i++) {
+                        if (resultSet.getString(i) != null) {
+                            json.put(columnNames[i - 1], resultSet.getString(i));
                         }
                     }
-                    jsonList.add(json);
-                }
-
-                for(JSONObject item : jsonList) {
-                    jsonArray.put(item);
+                    result.put(json);
                 }
             });
 
-            return jsonArray.toString();
+            return result.toString();
         } catch (SQLException e) {
             System.out.println("Requet was not completed: \n" + e.getMessage());
         }
