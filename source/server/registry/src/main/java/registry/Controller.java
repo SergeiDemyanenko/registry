@@ -35,9 +35,7 @@ public class Controller {
 
     @RequestMapping ("directory/person")
     public String person () {
-        Connection conn = DataBase.getConnection();
-        String query = "SELECT  * from PERSON";
-        return DataBase.getJsonFromSQL(dataSource, query);
+        return DataBase.getJsonFromSQL(dataSource, "SELECT * from PERSON");
     }
 
     @RequestMapping(path = "/report/{report_id}")
