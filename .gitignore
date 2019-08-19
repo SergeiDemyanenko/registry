@@ -4,3 +4,8 @@
 target/
 .DS_Store
 .vscode
+gradle/
+.gradle/
+gradlew
+gradlew.bat
+build/
