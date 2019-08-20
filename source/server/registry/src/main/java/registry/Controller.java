@@ -25,15 +25,15 @@ public class Controller {
 
     @RequestMapping("/")
     public String index() {
-        return "<html><body><h1>Java is cool!!!</h1></body></html>";
+        return "<html><body><h1>registry server</h1></body></html>";
     }
 
-    @RequestMapping("/hi")
+    @RequestMapping("/api/hi")
     public String hi() {
         return "hi";
     }
 
-    @RequestMapping ("directory/person")
+    @RequestMapping ("/api/directory/person")
     public String person () {
         return DataBase.getJsonFromSQL(dataSource, "SELECT * from PERSON");
     }

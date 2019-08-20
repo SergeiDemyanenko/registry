@@ -60,7 +60,7 @@ class Person extends React.Component{
     fetchPeople() {
         return axios({
             method: 'get',
-            url: 'http://localhost:8080/directory/person',
+            url: '/api/directory/person',
             responseType: 'json'
           });
     }
