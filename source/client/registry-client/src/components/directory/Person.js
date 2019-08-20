@@ -14,20 +14,24 @@ import { withStyles } from '@material-ui/core/styles';
 
 class Person extends React.Component{
     render(){
-    const loadingIndicator = <CircularProgress/>;
+    const loadingIndicator = (<div className={this.props.classes.loadingIndicatorContainer}>
+                                <CircularProgress/>
+                              </div>);
     const table = (<Table>
     <TableHead>
     <TableRow>
+      {/* TODO: Hide ID_PERSON column */}
         {this.props.directory.columns.map(column => (
           <TableCell>{column}</TableCell>
         ))}
     </TableRow>
     </TableHead>
     <TableBody>
-        {this.props.directory.people.map((row, index) => (
-            <TableRow key={index}>
-              {this.props.directory.columns.map(column => (
-                <TableCell>{row[column]}</TableCell>
+      {/* TODO: Hide ID_PERSON column */}
+        {this.props.directory.people.map((person, personIndex) => (
+            <TableRow key={personIndex}>
+              {this.props.directory.columns.map((column, columnIndex) => (
+                <TableCell>{person[columnIndex]}</TableCell>
               ))}
             </TableRow>
         ))}
@@ -36,7 +40,7 @@ class Person extends React.Component{
         return (
             <div>
                 <p>This is "Физические лица"</p>
-                <div className={this.props.classes.tableContainer}>
+                <div className= {this.props.classes.tableContainer}>
                     {this.props.directory.peopleLoading ? loadingIndicator : table}
                     <Route path="/directory/person"/>
                 </div>
@@ -48,8 +52,8 @@ class Person extends React.Component{
         this.props.setPeopleLoading(true);
         this.fetchPeople().then((response) => {
             this.props.setPeopleLoading(false);
-            this.props.setColumns(this.extractColumnsFromData(response.data));
-            this.props.setPeople(response.data);
+            this.props.setColumns(response.data.HEAD);
+            this.props.setPeople(response.data.DATA);
         });
     }
 
@@ -59,10 +63,6 @@ class Person extends React.Component{
             url: 'http://localhost:8080/directory/person',
             responseType: 'json'
           });
-    }
-
-    extractColumnsFromData(data){
-      return Object.keys(data[0]);
     }
 }
 const mapStateToProps = (state) => {
