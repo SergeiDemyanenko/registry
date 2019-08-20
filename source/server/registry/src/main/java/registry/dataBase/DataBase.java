@@ -4,12 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class DataBase {
 
@@ -45,22 +43,22 @@ public class DataBase {
 
     public static String getJsonFromSQL(DataSource dataSource, String sql) {
         try {
-            JSONArray result = new JSONArray();
+            JSONArray jsonHead = new JSONArray();
+            JSONArray jsonData = new JSONArray();
 
             getResultFromSQL(dataSource, sql, resultSet -> {
                 String[] columnNames = resultSet.getMetaData().getColumnNames();
                 while (resultSet.next()) {
-                    JSONObject json = new JSONObject();
+                    JSONArray jsonRow = new JSONArray();
                     for (int i = 1; i <= columnNames.length; i++) {
-                        if (resultSet.getString(i) != null) {
-                            json.put(columnNames[i - 1], resultSet.getString(i));
-                        }
+                        jsonRow.put(resultSet.getObject(i));
                     }
-                    result.put(json);
+                    jsonData.put(jsonRow);
                 }
+                Arrays.stream(columnNames).forEach(jsonHead::put);
             });
 
-            return result.toString();
+            return new JSONObject().put("HEAD", jsonHead).put("DATA", jsonData).toString();
         } catch (SQLException e) {
             System.out.println("Requet was not completed: \n" + e.getMessage());
         }
