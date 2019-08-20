@@ -38,7 +38,7 @@ public class Controller {
         return DataBase.getJsonFromSQL(dataSource, "SELECT * from PERSON");
     }
 
-    @RequestMapping(path = "/report/{report_id}")
+    @RequestMapping(path = "/api/report/{report_id}")
     public ResponseEntity<Resource> getReport(@PathVariable("report_id") String report_id) {
 
         String result = this.report.createReport(Long.valueOf(report_id));
