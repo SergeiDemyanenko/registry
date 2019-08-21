@@ -38,20 +38,21 @@ public class Controller {
 
     private Map<String, String> menuMap = new HashMap<>();
     {
-        menuMap.put("Физические лица", "api/directory/person");
-        menuMap.put("Статус заявки", "api/directory/appStatus");
-        menuMap.put("Характеристики", "api/directory/characteristics");
-        menuMap.put("Результат проверки", "api/directory/checkResult");
-        menuMap.put("Орган СРО", "api/directory/department");
-        menuMap.put("Основания для исключения", "api/directory/expulsion");
-        menuMap.put("Компенсационный фонд ОДО", "api/directory/findSumContact");
-        menuMap.put("Компенсационный фонд ВВ", "api/directory/findSumHarm");
+        menuMap.put("Физические лица", "person");
+        menuMap.put("Статус заявки", "appStatus");
+        menuMap.put("Характеристики", "characteristics");
+        menuMap.put("Результат проверки", "checkResult");
+        menuMap.put("Орган СРО", "department");
+        menuMap.put("Основания для исключения", "expulsion");
+        menuMap.put("Компенсационный фонд ОДО", "findSumContact");
+        menuMap.put("Компенсационный фонд ВВ", "findSumHarm");
     }
 
+    private static final String NAME = "NAME";
     private static final String TITLE = "TITLE";
     private static final String ITEMS = "ITEMS";
-    private static final String LINK = "LINK";
-    private static final String ORDER = "ORDER";
+    private static final String URL = "URL";
+    private static final String NUMBER = "NUMBER";
 
     @RequestMapping ("/api/menu")
     public String menu () {
@@ -60,14 +61,14 @@ public class Controller {
         // dict
         JSONArray dictMenu = new JSONArray();
         for (Map.Entry<String, String> entry : menuMap.entrySet()) {
-            dictMenu.put(new JSONObject().put(TITLE, entry.getKey()).put(ORDER, dictMenu.length()).put(LINK, entry.getValue()));
+            dictMenu.put(new JSONObject().put(NAME, entry.getValue()).put(TITLE, entry.getKey()).put(NUMBER, dictMenu.length()).put(URL, "/api${path}"));
         }
-        result.put(new JSONObject().put(TITLE, "Справочники").put(ITEMS, dictMenu).put(ORDER, result.length()));
+        result.put(new JSONObject().put(NAME, "directory").put(TITLE, "Справочники").put(ITEMS, dictMenu).put(NUMBER, result.length()));
 
-        result.put(new JSONObject().put(TITLE, "Документы").put(ORDER, result.length()).put(ITEMS, new JSONObject().put(TITLE, "test_line")));
-        result.put(new JSONObject().put(TITLE, "Отчеты").put(ORDER, result.length()).put(ITEMS, new JSONObject().put(TITLE, "test_line")));
-        result.put(new JSONObject().put(TITLE, "Настройки").put(ORDER, result.length()).put(ITEMS, new JSONObject().put(TITLE, "test_line")));
-        result.put(new JSONObject().put(TITLE, "Помощь").put(ORDER, result.length()).put(ITEMS, new JSONObject().put(TITLE, "test_line")));
+        result.put(new JSONObject().put(NAME, "documents").put(TITLE, "Документы").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
+        result.put(new JSONObject().put(NAME, "reports").put(TITLE, "Отчеты").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
+        result.put(new JSONObject().put(NAME, "settings").put(TITLE, "Настройки").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
+        result.put(new JSONObject().put(NAME, "help").put(TITLE, "Помощь").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
 
         return new JSONObject().put(ITEMS, result).toString();
     }
