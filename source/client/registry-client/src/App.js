@@ -8,7 +8,7 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+//import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,8 +20,21 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { DirectoryRoutes } from './routes/DirectoryRoutes';
+import axios  from 'axios';
 
 class App extends React.Component {
+  componentWillMount(){
+    this.fetchMenu().then((response) => {
+      this.props.setMenu(response.data)
+    });
+  }
+  fetchMenu(){
+    return axios({
+      method: 'get',
+      url: '/api/menu',
+      responseType: 'json'
+    });
+  }
   render(){
 
     const { classes } = this.props;
@@ -32,20 +45,21 @@ class App extends React.Component {
         <Divider />
         <List>
             {this.props.app.leftMenuItems.map((leftMenuItem, i) => 
-            <div key={leftMenuItem.title}>
-                <ListItem button  key={leftMenuItem.title}
+            <div key={leftMenuItem.TITLE}>
+                <ListItem button key={leftMenuItem.TITLE}
                   onClick={() => { this.props.toggleLeftMenuItem(i) }}
-                  selected={this.props.location.pathname === leftMenuItem.link}>    
-                  <ListItemIcon>{leftMenuItem.icon}</ListItemIcon>
-                  <ListItemText primary={leftMenuItem.title} />
+                  selected={this.props.location.pathname === leftMenuItem.link}>
+                    {/* TODO: Ask about icons */}
+                  {/* <ListItemIcon>{leftMenuItem.icon}</ListItemIcon> */}
+                  <ListItemText primary={leftMenuItem.TITLE} />
                   {leftMenuItem.isExpanded ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={leftMenuItem.isExpanded} timeout="auto" unmountOnExit>
                   <List>
-                    {leftMenuItem.nestedItems.map(nestedItem => (
-                      <Link to={nestedItem.link} className={classes.link} key={nestedItem.title}>
+                    {leftMenuItem.ITEMS.map(nestedItem => (
+                      <Link to={nestedItem.TITLE} className={classes.link} key={nestedItem.TITLE}>
                         <ListItem button className={classes.nested}>
-                          <ListItemText primary={nestedItem.title}/>
+                          <ListItemText primary={nestedItem.TITLE}/>
                         </ListItem>
                       </Link>
                     ))}
@@ -132,6 +146,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: 'TOGGLE_LEFT_MENU_ITEM',
         payload: index
+      })
+    },
+    setMenu:(menu) => {
+      dispatch({
+        type: 'SET_MENU',
+        payload: menu,
       })
     }
   }
