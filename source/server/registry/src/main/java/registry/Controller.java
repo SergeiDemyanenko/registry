@@ -65,10 +65,10 @@ public class Controller {
         }
         result.put(new JSONObject().put(NAME, "directory").put(TITLE, "Справочники").put(ITEMS, dictMenu).put(NUMBER, result.length()));
 
-        result.put(new JSONObject().put(NAME, "documents").put(TITLE, "Документы").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
-        result.put(new JSONObject().put(NAME, "reports").put(TITLE, "Отчеты").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
-        result.put(new JSONObject().put(NAME, "settings").put(TITLE, "Настройки").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
-        result.put(new JSONObject().put(NAME, "help").put(TITLE, "Помощь").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
+        result.put(new JSONObject().put(NAME, "documents").put(TITLE, "Документы").put(NUMBER, result.length()).put(ITEMS, new JSONArray().put(new JSONObject().put(NAME, "test_line").put(TITLE, "test_line"))));
+        result.put(new JSONObject().put(NAME, "reports").put(TITLE, "Отчеты").put(NUMBER, result.length()).put(ITEMS, new JSONArray().put(new JSONObject().put(NAME, "test_line").put(TITLE, "test_line"))));
+        result.put(new JSONObject().put(NAME, "settings").put(TITLE, "Настройки").put(NUMBER, result.length()).put(ITEMS, new JSONArray().put(new JSONObject().put(NAME, "test_line").put(TITLE, "test_line"))));
+        result.put(new JSONObject().put(NAME, "help").put(TITLE, "Помощь").put(NUMBER, result.length()).put(ITEMS, new JSONArray().put(new JSONObject().put(NAME, "test_line").put(TITLE, "test_line"))));
 
         return new JSONObject().put(ITEMS, result).toString();
     }
