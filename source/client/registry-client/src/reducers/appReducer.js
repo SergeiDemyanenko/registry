@@ -31,7 +31,7 @@ export default (state = initialAppState, action) => {
         case 'SET_MENU':
             state = {
                 ...state,
-                leftMenuItems: action.payload.ITEMS
+                leftMenuItems: action.payload.items
             }
             break;
         default:

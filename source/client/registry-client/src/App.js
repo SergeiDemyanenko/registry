@@ -8,7 +8,6 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-//import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -45,21 +44,21 @@ class App extends React.Component {
         <Divider />
         <List>
             {this.props.app.leftMenuItems.map((leftMenuItem, i) => 
-            <div key={leftMenuItem.TITLE}>
-                <ListItem button key={leftMenuItem.TITLE}
+            <div key={leftMenuItem.title}>
+                <ListItem button key={leftMenuItem.title}
                   onClick={() => { this.props.toggleLeftMenuItem(i) }}
                   selected={this.props.location.pathname === leftMenuItem.link}>
                     {/* TODO: Ask about icons */}
                   {/* <ListItemIcon>{leftMenuItem.icon}</ListItemIcon> */}
-                  <ListItemText primary={leftMenuItem.TITLE} />
+                  <ListItemText primary={leftMenuItem.title} />
                   {leftMenuItem.isExpanded ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={leftMenuItem.isExpanded} timeout="auto" unmountOnExit>
                   <List>
-                    {leftMenuItem.ITEMS.map(nestedItem => (
-                      <Link to={nestedItem.TITLE} className={classes.link} key={nestedItem.TITLE}>
+                    {leftMenuItem.items.map(nestedItem => (
+                      <Link to={nestedItem.title} className={classes.link} key={nestedItem.title}>
                         <ListItem button className={classes.nested}>
-                          <ListItemText primary={nestedItem.TITLE}/>
+                          <ListItemText primary={nestedItem.title}/>
                         </ListItem>
                       </Link>
                     ))}
@@ -156,5 +155,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 }
-
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(appStyles)(App));
