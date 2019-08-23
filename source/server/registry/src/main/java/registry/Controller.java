@@ -48,11 +48,11 @@ public class Controller {
         menuMap.put("Компенсационный фонд ВВ", "findSumHarm");
     }
 
-    private static final String NAME = "NAME";
-    private static final String TITLE = "TITLE";
-    private static final String ITEMS = "ITEMS";
-    private static final String URL = "URL";
-    private static final String NUMBER = "NUMBER";
+    private static final String NAME = "name";
+    private static final String TITLE = "title";
+    private static final String ITEMS = "items";
+    private static final String URL = "url";
+    private static final String NUMBER = "number";
 
     @RequestMapping ("/api/menu")
     public String menu () {
