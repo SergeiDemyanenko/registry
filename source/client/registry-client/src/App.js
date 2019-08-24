@@ -18,8 +18,9 @@ import { Route, Link } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import { DirectoryRoutes } from './routes/DirectoryRoutes';
+//import { DirectoryRoutes } from './routes/DirectoryRoutes';
 import axios  from 'axios';
+import Person from './components/directory/Person';
 
 class App extends React.Component {
   componentWillMount(){
@@ -56,7 +57,7 @@ class App extends React.Component {
                 <Collapse in={leftMenuItem.isExpanded} timeout="auto" unmountOnExit>
                   <List>
                     {leftMenuItem.items.map(nestedItem => (
-                      <Link to={nestedItem.title} className={classes.link} key={nestedItem.title}>
+                      <Link to={nestedItem.url || '/'} className={classes.link} key={nestedItem.title}>
                         <ListItem button className={classes.nested}>
                           <ListItemText primary={nestedItem.title}/>
                         </ListItem>
@@ -115,7 +116,7 @@ class App extends React.Component {
           </nav>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            <Route path="/directory" component={DirectoryRoutes} />
+            <Route path="/directory/person" component={Person}/>
           </main>
         </div>
     );

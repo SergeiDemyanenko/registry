@@ -9,5 +9,11 @@ export default (theme) => ({
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center'
-    }
+    },
+    button:  {
+        margin: theme.spacing(1),
+      },
+      input: {
+        display: 'none',
+      },
 })
