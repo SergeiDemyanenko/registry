@@ -6,7 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import personStyles from '../../styles/Person.styles';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { DynamicTable } from '../DynamicTable';
+import  DynamicTable from '../DynamicTable';
 
 
 class Person extends React.Component{
@@ -18,6 +18,9 @@ class Person extends React.Component{
             <div>
               <Button variant="contained" color="primary" className={this.props.classes.button}>
                 Добавить
+              </Button>
+              <Button variant="contained" color="secondary" className={this.props.classes.button}>
+                Удалить 
               </Button>
               <div className= {this.props.classes.tableContainer}>
                 {this.props.directory.peopleLoading ? loadingIndicator : <DynamicTable columns={this.props.directory.columns} rows={this.props.directory.people}/>}
