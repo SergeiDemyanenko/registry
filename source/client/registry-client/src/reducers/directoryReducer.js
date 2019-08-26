@@ -9,7 +9,8 @@ export default (state = initialDirectoryState, action) => {
         case 'SET_PEOPLE':
            state = { 
                ...state,
-               people: action.payload
+               // temporary workaround for rendering performance
+               people: action.payload.slice(0, 10)
            };
            break;
         case 'SET_PEOPLE_LOADING':

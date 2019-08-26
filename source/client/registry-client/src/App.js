@@ -18,7 +18,6 @@ import { Route, Link } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-//import { DirectoryRoutes } from './routes/DirectoryRoutes';
 import axios  from 'axios';
 import Person from './components/directory/Person';
 
@@ -125,7 +124,6 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.userReducer,
     app: state.appReducer
   }
 }
