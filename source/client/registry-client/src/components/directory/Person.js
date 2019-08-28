@@ -6,19 +6,62 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import personStyles from '../../styles/Person.styles';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import  DynamicTable from '../DynamicTable';
+import DynamicTable from '../DynamicTable';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Input from '@material-ui/core/Input';
 
 
 class Person extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {open: false};
+  }
     render(){
     const loadingIndicator = (<div className={this.props.classes.loadingIndicatorContainer}>
                                 <CircularProgress/>
                               </div>);
         return (
             <div>
-              <Button variant="contained" color="primary" className={this.props.classes.button}>
+               <Button 
+                  variant="contained" 
+                  color="primary" 
+                  className={this.props.classes.button} 
+                  onClick={() => this.toggleDialog()}>
                 Добавить
               </Button>
+        <Dialog
+          open={this.state.open}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">{"Добавить физическое лицо"}</DialogTitle>
+        <DialogContent>
+        <div className={this.props.classes.container}>
+          <Input
+            className={this.props.classes.inputInsideDialog}
+            inputProps={{
+              'aria-label': 'description',
+            }}
+          />
+          </div>
+          <DialogContentText id="alert-dialog-description">
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="secondary" 
+          className={this.props.classes.button}
+          onClick={() => this.toggleDialog()}>
+            Отменить
+          </Button>
+          <Button variant="contained" color="primary" className={this.props.classes.button}>
+            Подтвердить
+          </Button>
+        </DialogActions>
+      </Dialog>
               <Button variant="contained" color="secondary" className={this.props.classes.button}>
                 Удалить 
               </Button>
@@ -28,6 +71,12 @@ class Person extends React.Component{
               </div>
             </div>
         )
+    }
+
+    toggleDialog(){
+      this.setState(state => ({
+        open: !state.open
+      }))
     }
 
     componentWillMount(){
