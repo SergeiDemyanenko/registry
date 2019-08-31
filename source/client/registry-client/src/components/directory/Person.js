@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import axios  from 'axios';
 import {connect} from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -67,7 +66,6 @@ class Person extends React.Component{
               </Button>
               <div className= {this.props.classes.tableContainer}>
                 {this.props.directory.peopleLoading ? loadingIndicator : <DynamicTable columns={this.props.directory.columns} rows={this.props.directory.people}/>}
-                  <Route path="/directory/person"/>
               </div>
             </div>
         )
@@ -85,6 +83,7 @@ class Person extends React.Component{
             this.props.setPeopleLoading(false);
             this.props.setColumns(response.data.HEAD);
             this.props.setPeople(response.data.DATA);
+
         });
     }
 
