@@ -55,13 +55,15 @@ class App extends React.Component {
                 </ListItem>
                 <Collapse in={leftMenuItem.isExpanded} timeout="auto" unmountOnExit>
                   <List>
-                    {leftMenuItem.items.map(nestedItem => (
-                      <Link to={nestedItem.url || '/'} className={classes.link} key={nestedItem.title}>
+                    {leftMenuItem.items.map(nestedItem => {
+                      let path = `/${leftMenuItem.name}/${nestedItem.name}`;
+                      return (
+                      <Link to={path} className={classes.link} key={nestedItem.title}>
                         <ListItem button className={classes.nested}>
                           <ListItemText primary={nestedItem.title}/>
                         </ListItem>
-                      </Link>
-                    ))}
+                      </Link>)
+                    })}
                   </List>
                 </Collapse>
             </div>
