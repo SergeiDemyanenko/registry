@@ -1,5 +1,8 @@
 package registry;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +13,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import registry.menu.MenuItemEntity;
+import registry.menu.MenuItemRepository;
 import registry.report.Report;
 
 import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -25,6 +29,8 @@ public class Controller {
     private DataSource dataSource;
     @Autowired
     private Report report;
+    @Autowired
+    private MenuItemRepository menuItemRepository;
 
     @RequestMapping("/")
     public String index() {
@@ -36,41 +42,12 @@ public class Controller {
         return "hi";
     }
 
-    private Map<String, String> menuMap = new HashMap<>();
-    {
-        menuMap.put("Физические лица", "person");
-        menuMap.put("Статус заявки", "appStatus");
-        menuMap.put("Характеристики", "characteristics");
-        menuMap.put("Результат проверки", "checkResult");
-        menuMap.put("Орган СРО", "department");
-        menuMap.put("Основания для исключения", "expulsion");
-        menuMap.put("Компенсационный фонд ОДО", "findSumContact");
-        menuMap.put("Компенсационный фонд ВВ", "findSumHarm");
-    }
-
-    private static final String NAME = "NAME";
-    private static final String TITLE = "TITLE";
-    private static final String ITEMS = "ITEMS";
-    private static final String URL = "URL";
-    private static final String NUMBER = "NUMBER";
-
     @RequestMapping ("/api/menu")
-    public String menu () {
-        JSONArray result = new JSONArray();
-
-        // dict
-        JSONArray dictMenu = new JSONArray();
-        for (Map.Entry<String, String> entry : menuMap.entrySet()) {
-            dictMenu.put(new JSONObject().put(NAME, entry.getValue()).put(TITLE, entry.getKey()).put(NUMBER, dictMenu.length()).put(URL, "/api${path}"));
-        }
-        result.put(new JSONObject().put(NAME, "directory").put(TITLE, "Справочники").put(ITEMS, dictMenu).put(NUMBER, result.length()));
-
-        result.put(new JSONObject().put(NAME, "documents").put(TITLE, "Документы").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
-        result.put(new JSONObject().put(NAME, "reports").put(TITLE, "Отчеты").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
-        result.put(new JSONObject().put(NAME, "settings").put(TITLE, "Настройки").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
-        result.put(new JSONObject().put(NAME, "help").put(TITLE, "Помощь").put(NUMBER, result.length()).put(ITEMS, new JSONObject().put(NAME, "test_line").put(TITLE, "test_line")));
-
-        return new JSONObject().put(ITEMS, result).toString();
+    public String menu () throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        return mapper.writeValueAsString(menuItemRepository.findAllRoot());
     }
 
     @RequestMapping ("/api/directory/person")

@@ -1,5 +1,8 @@
 package registry.menu;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,6 +13,7 @@ public class MenuItemEntity implements Comparable<MenuItemEntity> {
     @Id
     @GeneratedValue
     @Column(name = "ID_MENU")
+    @JsonIgnore
     private Long id;
 
     @Column(name = "NAME")
@@ -21,15 +25,16 @@ public class MenuItemEntity implements Comparable<MenuItemEntity> {
     @Column(name = "URL")
     private String url;
 
-    @ManyToOne
-    @Column(name = "ID_PARENT")
-    private Long idParent;
+    @Column(name = "PARENT_ID")
+    @JsonIgnore
+    private Long parentId;
 
-    @Column(name = "NUMBER")
-    private Long number;
+    @Column(name = "INDEX_")
+    private Long index;
 
     @OneToMany
-    @JoinColumn(name = "ID_PARENT")
+    @JoinColumn(name = "PARENT_ID")
+    @JsonProperty("items")
     private List<MenuItemEntity> children;
 
     public Long getId() {
@@ -48,12 +53,12 @@ public class MenuItemEntity implements Comparable<MenuItemEntity> {
         return url;
     }
 
-    public Long getIdParent() {
-        return idParent;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public Long getNumber() {
-        return number;
+    public Long getIndex() {
+        return index;
     }
 
     public List<MenuItemEntity> getChildren() {
@@ -62,6 +67,6 @@ public class MenuItemEntity implements Comparable<MenuItemEntity> {
 
     @Override
     public int compareTo(MenuItemEntity o) {
-        return Long.compare(this.getNumber(), o.getNumber());
+        return Long.compare(this.getIndex(), o.getIndex());
     }
 }
