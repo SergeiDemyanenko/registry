@@ -1,4 +1,7 @@
-import { initialAppState } from '../store/appState';
+const initialAppState = {
+    leftMenuOpen: false,
+    leftMenuItems: []
+}
 
 export default (state = initialAppState, action) => {
     switch(action.type){
@@ -25,7 +28,13 @@ export default (state = initialAppState, action) => {
                 })
             }
             break;
-        default: 
+        case 'SET_MENU':
+            state = {
+                ...state,
+                leftMenuItems: action.payload.items
+            }
+            break;
+        default:
         return state;
     }
     return state;
