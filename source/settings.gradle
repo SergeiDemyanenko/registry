@@ -1,1 +1,1 @@
-include ":client:registry-client", ":db", ":server:registry"
+include "client:registry-client", "db", "server"
