@@ -67,4 +67,9 @@ public class Controller {
                 .contentLength(resource.contentLength())
                 .body(resource);
     }
+
+    @RequestMapping("/api/derictory/{modelName}")
+    public String getData(@PathVariable("modelName") String name) {
+        return null;
+    }
 }
