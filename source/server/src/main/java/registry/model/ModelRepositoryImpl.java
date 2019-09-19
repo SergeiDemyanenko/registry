@@ -1,4 +1,4 @@
-package registry.menu;
+package registry.model;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
