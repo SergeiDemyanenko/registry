@@ -15,10 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import registry.menu.MenuItemEntity;
 import registry.menu.MenuItemRepository;
+import registry.model.ModelRepository;
 import registry.report.Report;
 
 import javax.sql.DataSource;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -31,6 +33,8 @@ public class Controller {
     private Report report;
     @Autowired
     private MenuItemRepository menuItemRepository;
+    @Autowired
+    private ModelRepository modelRepository;
 
     @RequestMapping("/")
     public String index() {
@@ -70,6 +74,6 @@ public class Controller {
 
     @RequestMapping("/api/derictory/{modelName}")
     public String getData(@PathVariable("modelName") String name) {
-        return null;
+        return modelRepository.GetAllByName(name);
     }
 }
