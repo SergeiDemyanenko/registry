@@ -1,4 +1,4 @@
-package registry.report;
+package registry.entity.report;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

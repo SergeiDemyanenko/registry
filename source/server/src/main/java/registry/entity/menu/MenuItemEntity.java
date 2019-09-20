@@ -1,4 +1,4 @@
-package registry.menu;
+package registry.entity.menu;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package registry.model;
+package registry.entity.model;
 
 import javax.persistence.*;
 

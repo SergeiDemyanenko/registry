@@ -1,13 +1,12 @@
 package registry.dataBase;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.jdbc.core.namedparam.*;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.Arrays;
+import java.sql.SQLException;
 
 public class DataBase {
 
@@ -41,9 +40,8 @@ public class DataBase {
         getResultFromSQL(dataSource, sql, null, getResultSet);
     }
 
-    public static String getJsonFromSQL(DataSource dataSource, String sql) {
+    public static JSONArray getJsonFromSQL(DataSource dataSource, String sql) {
         try {
-            JSONArray jsonHead = new JSONArray();
             JSONArray jsonData = new JSONArray();
 
             getResultFromSQL(dataSource, sql, resultSet -> {
@@ -55,10 +53,9 @@ public class DataBase {
                     }
                     jsonData.put(jsonRow);
                 }
-                Arrays.stream(columnNames).forEach(jsonHead::put);
             });
 
-            return new JSONObject().put("HEAD", jsonHead).put("DATA", jsonData).toString();
+            return jsonData;
         } catch (SQLException e) {
             System.out.println("Requet was not completed: \n" + e.getMessage());
         }
