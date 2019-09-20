@@ -30,7 +30,7 @@ public class Controller {
     @Autowired
     private MenuItemRepository menuItemRepository;
     @Autowired
-    private ModelUtils modelUtils;
+    private ModelUtils model;
 
     @RequestMapping("/")
     public String index() {
@@ -63,8 +63,8 @@ public class Controller {
                 .body(resource);
     }
 
-    @RequestMapping("/api/derictory/{modelName}")
-    public String getData(@PathVariable("modelName") String name) {
-        return modelUtils.GetAllByName(name);
+    @RequestMapping("/api/directory/{modelName}")
+    public String getData(@PathVariable("modelName") String modelName) {
+        return model.executeModel(modelName);
     }
 }

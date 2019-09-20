@@ -9,9 +9,6 @@ import registry.entity.model.ModelItemEntity;
 import registry.entity.model.ModelItemRepository;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class ModelUtils {
@@ -21,14 +18,12 @@ public class ModelUtils {
     @Autowired
     private ModelItemRepository modelItemRepository;
 
-    public String GetAllByName(String modelName) {
-        ModelItemEntity model = modelItemRepository.findModelByName(modelName);
-        JSONArray jsonHead = new JSONArray();
-        String sql = model.getSqlSelect();
-        String jsonHeadString = model.getHeaderView();
-        List list = new ArrayList<String>(Arrays.asList(jsonHeadString.split(",")));
-        list.forEach(item -> jsonHead.put(item.toString().replaceAll("\"", "")));
-        JSONArray jsonData = DataBase.getJsonFromSQL(dataSource, sql);
+    public String executeModel(String modelName) {
+        ModelItemEntity modelItem = modelItemRepository.findModelByName(modelName);
+
+        JSONArray jsonHead = new JSONArray(modelItem.getHeaderView());
+        JSONArray jsonData = DataBase.getJsonFromSQL(dataSource, modelItem.getSqlSelect());
+
         return new JSONObject().put("HEAD", jsonHead).put("DATA", jsonData).toString();
     }
 }
