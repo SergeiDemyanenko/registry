@@ -1,10 +1,12 @@
-package registry.report;
+package registry.utils;
 
 import com.google.common.base.Strings;
-import registry.dataBase.DataBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import registry.dataBase.DataBase;
+import registry.entity.report.ReportItemEntity;
+import registry.entity.report.ReportItemRepository;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class Report {
+public class ReportUtils {
 
     @Autowired
     private DataSource dataSource;
