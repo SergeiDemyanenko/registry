@@ -1,4 +1,4 @@
-package registry.utils;
+package registry.util;
 
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package registry.utils;
+package registry.util;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,7 +11,14 @@ import registry.entity.model.ModelItemRepository;
 import javax.sql.DataSource;
 
 @Component
-public class ModelUtils {
+public class ModelHelper {
+
+    public enum Type {
+        REQUEST,
+        FORM,
+        ACTION,
+        SET;
+    }
 
     @Autowired
     private DataSource dataSource;
