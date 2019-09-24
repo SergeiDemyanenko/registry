@@ -36,6 +36,10 @@ class App extends React.Component {
 		});
 	}
 
+	/**
+	 * Recursivly builds deep nested Menu
+	 * @param {*} leftMenuItems
+	 */
 	buildMenu(leftMenuItems) {
 		return (
 			<List>
