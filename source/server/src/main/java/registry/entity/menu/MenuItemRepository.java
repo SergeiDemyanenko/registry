@@ -13,5 +13,4 @@ public interface MenuItemRepository extends JpaRepository<MenuItemEntity, Long> 
     default List<MenuItemEntity> findAllRoot() {
         return findAllByParentId(null);
     }
-
 }

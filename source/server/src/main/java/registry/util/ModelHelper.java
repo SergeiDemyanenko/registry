@@ -1,36 +1,60 @@
 package registry.util;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.util.RawValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import registry.dataBase.DataBase;
+import registry.entity.model.ModelEntity;
 import registry.entity.model.ModelItemEntity;
-import registry.entity.model.ModelItemRepository;
+import registry.entity.model.ModelRepository;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Map;
 
 @Component
 public class ModelHelper {
 
-    public enum Type {
-        REQUEST,
-        FORM,
-        ACTION,
-        SET;
-    }
-
     @Autowired
     private DataSource dataSource;
     @Autowired
-    private ModelItemRepository modelItemRepository;
+    private ModelRepository modelRepository;
 
-    public String executeModel(String modelName) {
-        ModelItemEntity modelItem = modelItemRepository.findModelByName(modelName);
+    public String getModelItem(String modelName, String modelItemName) throws IOException {
+        ModelEntity model = modelRepository.findModelByName(modelName);
+        JsonNode result = getModelItem(model.getItems(), modelItemName);
+        if (result != null) {
+            return JsonHelper.getAsString(result);
+        }
 
-        JSONArray jsonHead = new JSONArray(modelItem.getHeaderView());
-        JSONArray jsonData = DataBase.getJsonFromSQL(dataSource, modelItem.getSqlSelect());
+        return null;
+    }
 
-        return new JSONObject().put("HEAD", jsonHead).put("DATA", jsonData).toString();
+    private JsonNode getModelItem(Map<String, ModelItemEntity> modelItemMap, String modelItemName) throws IOException {
+        ModelItemEntity modelItem = modelItemMap.get(modelItemName);
+        if (modelItem != null) {
+            switch (modelItem.getType()) {
+                case SET:
+                    ObjectNode result = JsonHelper.createNode();
+                    for (Map.Entry<String, String> entry : JsonHelper.getMapFromString(modelItem.getContent()).entrySet()) {
+                        JsonNode node = getModelItem(modelItemMap, entry.getValue());
+                        if (node == null) {
+                            result.put(entry.getKey(), entry.getValue());
+                        } else {
+                            result.put(entry.getKey(), node);
+                        }
+                    }
+                    return result;
+                case FORM:
+                case ACTION:
+                    return JsonHelper.createNode().rawValueNode(new RawValue(modelItem.getContent()));
+                case REQUEST:
+                    return JsonHelper.createNode().rawValueNode(new RawValue(DataBase.getJsonFromSQL(dataSource, modelItem.getContent()).toString()));
+            }
+        }
+
+        return null;
     }
 }

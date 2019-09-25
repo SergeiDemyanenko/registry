@@ -15,6 +15,7 @@ import registry.util.ReportUtils;
 import registry.util.ResponseHelper;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 
@@ -46,8 +47,13 @@ public class Controller {
         return ResponseHelper.get(result, MediaType.APPLICATION_OCTET_STREAM, report_id + ".doc");
     }
 
-    @RequestMapping("/api/directory/{modelName}")
-    public ResponseEntity<Resource> getData(@PathVariable("modelName") String modelName) {
-        return ResponseHelper.get(model.executeModel(modelName), MediaType.APPLICATION_JSON_UTF8);
+    @RequestMapping("/api/directory/{model_name}")
+    public ResponseEntity<Resource> getData(@PathVariable("model_name") String modelName) throws IOException {
+        return getModel(modelName, "data");
+    }
+
+    @RequestMapping("/api/model/{model_name}/{model_item}")
+    public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName, @PathVariable("model_item") String modelItemName) throws IOException {
+        return ResponseHelper.get(model.getModelItem(modelName, modelItemName), MediaType.APPLICATION_JSON_UTF8);
     }
 }
