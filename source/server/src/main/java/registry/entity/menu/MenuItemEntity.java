@@ -10,6 +10,8 @@ import java.util.List;
 @Table(name = "APP$MENU")
 public class MenuItemEntity implements Comparable<MenuItemEntity> {
 
+    static final String PARENT_ID_FIELD = "PARENT_ID";
+
     @Id
     @GeneratedValue
     @Column(name = "ID_MENU")
@@ -25,7 +27,7 @@ public class MenuItemEntity implements Comparable<MenuItemEntity> {
     @Column(name = "URL")
     private String url;
 
-    @Column(name = "PARENT_ID")
+    @Column(name = PARENT_ID_FIELD)
     @JsonIgnore
     private Long parentId;
 
@@ -33,9 +35,8 @@ public class MenuItemEntity implements Comparable<MenuItemEntity> {
     private Long index;
 
     @OneToMany
-    @JoinColumn(name = "PARENT_ID")
-    @JsonProperty("items")
-    private List<MenuItemEntity> children;
+    @JoinColumn(name = PARENT_ID_FIELD)
+    private List<MenuItemEntity> items;
 
     public Long getId() {
         return id;
@@ -61,8 +62,8 @@ public class MenuItemEntity implements Comparable<MenuItemEntity> {
         return index;
     }
 
-    public List<MenuItemEntity> getChildren() {
-        return children;
+    public List<MenuItemEntity> getItems() {
+        return items;
     }
 
     @Override

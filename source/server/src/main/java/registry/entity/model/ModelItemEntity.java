@@ -3,37 +3,39 @@ package registry.entity.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="APP$MODEL")
+@Table(name = "APP$MODEL_ITEM")
 public class ModelItemEntity {
+
+    static final String NAME_MEMBER = "name";
+    static final String ID_MODEL_FIELD = "ID_MODEL";
+
+    public enum Type {
+        REQUEST,
+        FORM,
+        ACTION,
+        SET;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_MODEL")
-    private int id;
+    @Column(name = "ID_MODEL_ITEM")
+    private Long id;
 
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "HEADER_EDIT")
-    private String headerEdit;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "TYPE_")
+    private Type type;
 
-    @Column(name = "SQL_INSERT")
-    private String sqlInsert;
+    @Column(name = "CONTENT")
+    private String content;
 
-    @Column(name = "SQL_UPDATE")
-    private String sqlUpdate;
+    @ManyToOne
+    @JoinColumn(name = ModelEntity.ID_MODEL_FIELD, nullable = false)
+    private ModelEntity model;
 
-    @Column(name = "HEADER_VIEW")
-    private String headerView;
-
-    @Column(name = "SQL_SELECT")
-    private String sqlSelect;
-
-    @Column(name = "SQL_DELETE")
-    private String sqlDelete;
-
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -41,27 +43,15 @@ public class ModelItemEntity {
         return name;
     }
 
-    public String getHeaderEdit() {
-        return headerEdit;
+    public Type getType() {
+        return type;
     }
 
-    public String getSqlInsert() {
-        return sqlInsert;
+    public String getContent() {
+        return content;
     }
 
-    public String getSqlUpdate() {
-        return sqlUpdate;
-    }
-
-    public String getHeaderView() {
-        return headerView;
-    }
-
-    public String getSqlSelect() {
-        return sqlSelect;
-    }
-
-    public String getSqlDelete() {
-        return sqlDelete;
+    public ModelEntity getModel() {
+        return model;
     }
 }
