@@ -10,3 +10,6 @@ gradlew
 gradlew.bat
 build/
 out/
+source/client/.settings
+source/client/.project
+source/client/node_modules/
