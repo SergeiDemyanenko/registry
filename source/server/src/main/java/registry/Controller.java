@@ -16,7 +16,6 @@ import registry.util.ResponseHelper;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.lang.reflect.Method;
 
 
 @RestController
@@ -28,8 +27,6 @@ public class Controller {
     private ReportUtils report;
     @Autowired
     private MenuItemRepository menuItemRepository;
-    @Autowired
-    private ModelHelper model;
 
     @RequestMapping("/api/hi")
     public ResponseEntity<Resource> getHi() {
@@ -53,7 +50,7 @@ public class Controller {
     }
 
     @RequestMapping("/api/model/{model_name}/{model_item}")
-    public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName, @PathVariable("model_item") String modelItemName) throws IOException {
-        return ResponseHelper.get(model.getModelItem(modelName, modelItemName), MediaType.APPLICATION_JSON_UTF8);
+    public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName, @PathVariable("model_item") String itemName) throws IOException {
+        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, itemName));
     }
 }
