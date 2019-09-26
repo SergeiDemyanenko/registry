@@ -37,8 +37,8 @@ class App extends React.Component {
 	}
 
 	/**
-	 * Recursivly builds deep nested Menu
-	 * @param {*} leftMenuItems
+	 * Recursivly builds deep nested Menu
+	 * @param {*} leftMenuItems
 	 */
 	buildMenu(leftMenuItems) {
 		return (
@@ -54,8 +54,6 @@ class App extends React.Component {
 										this.props.toggleLeftMenuItem(leftMenuItem.name);
 									}}
 									selected={this.props.location.pathname === leftMenuItem.link}>
-									{/* TODO: Ask about icons */}
-									{/* <ListItemIcon>{leftMenuItem.icon}</ListItemIcon> */}
 									<ListItemText primary={leftMenuItem.title} />
 									{leftMenuItem.isExpanded ? <ExpandLess /> : <ExpandMore />}
 								</ListItem>
