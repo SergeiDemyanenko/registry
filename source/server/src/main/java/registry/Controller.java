@@ -44,13 +44,14 @@ public class Controller {
         return ResponseHelper.get(result, MediaType.APPLICATION_OCTET_STREAM, report_id + ".doc");
     }
 
+    //TODO temporarily, to maintain compatibility with the client
     @RequestMapping("/api/directory/{model_name}")
     public ResponseEntity<Resource> getData(@PathVariable("model_name") String modelName) throws IOException {
         return getModel(modelName, "data");
     }
 
-    @RequestMapping("/api/model/{model_name}/{model_item}")
-    public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName, @PathVariable("model_item") String itemName) throws IOException {
+    @RequestMapping("/api/model/{model_name}/{item_name}")
+    public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName, @PathVariable("item_name") String itemName) throws IOException {
         return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, itemName));
     }
 }
