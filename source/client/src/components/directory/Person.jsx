@@ -21,7 +21,7 @@ class Person extends React.Component {
 		);
 		return (
 			<div>
-				<FormDialog open={this.state.open} onDismiss={() => this.toggleDialog()} />
+				<FormDialog open={this.state.open} columns={this.props.directory.columns} onDismiss={() => this.toggleDialog()} />
 				<Button variant='contained' color='primary' className={this.props.classes.button} onClick={() => this.toggleDialog()}>
 					Добавить
 				</Button>
