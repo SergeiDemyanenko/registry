@@ -2,7 +2,6 @@ package registry.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.util.RawValue;
 import registry.dataBase.DataBase;
 import registry.entity.model.ModelEntity;
 import registry.entity.model.ModelItemEntity;
@@ -17,26 +16,37 @@ public class ModelHelper {
         return JsonHelper.getAsBytes(getItem(model.getItems(), itemName));
     }
 
+    private static JsonNode getItemSet(Map<String, ModelItemEntity> modelItemMap, Map<String, Object> nameMap) throws IOException {
+        ObjectNode result = JsonHelper.createNode();
+        for (Map.Entry<String, Object> entry : nameMap.entrySet()) {
+            JsonNode node;
+            if (entry.getValue() instanceof Map) {
+                node = getItemSet(modelItemMap, (Map)entry.getValue());
+            } else {
+                node = getItem(modelItemMap, entry.getValue().toString());
+            }
+
+            if (node == null) {
+                result.put(entry.getKey(), entry.getValue().toString());
+            } else {
+                result.set(entry.getKey(), node);
+            }
+        }
+
+        return result;
+    }
+
     private static JsonNode getItem(Map<String, ModelItemEntity> modelItemMap, String itemName) throws IOException {
         ModelItemEntity modelItem = modelItemMap.get(itemName);
         if (modelItem != null) {
             switch (modelItem.getType()) {
                 case SET:
-                    ObjectNode result = JsonHelper.createNode();
-                    for (Map.Entry<String, String> entry : JsonHelper.getMapFromString(modelItem.getContent()).entrySet()) {
-                        JsonNode node = getItem(modelItemMap, entry.getValue());
-                        if (node == null) {
-                            result.put(entry.getKey(), entry.getValue());
-                        } else {
-                            result.set(entry.getKey(), node);
-                        }
-                    }
-                    return result;
+                    return getItemSet(modelItemMap, JsonHelper.getMapFromString(modelItem.getContent()));
                 case FORM:
                 case ACTION:
-                    return JsonHelper.createNode().rawValueNode(new RawValue(modelItem.getContent()));
+                    return JsonHelper.createValueNode(modelItem.getContent());
                 case REQUEST:
-                    return JsonHelper.createNode().rawValueNode(new RawValue(DataBase.getJsonFromSQL(AutowiredForHelper.getDataSource(), modelItem.getContent()).toString()));
+                    return JsonHelper.createValueNode(DataBase.getJsonFromSQL(AutowiredForHelper.getDataSource(), modelItem.getContent()).toString());
             }
         }
 

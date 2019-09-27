@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ValueNode;
 import com.fasterxml.jackson.databind.util.RawValue;
 
 import java.io.IOException;
@@ -26,11 +27,15 @@ public class JsonHelper {
         return mapper.writeValueAsBytes(obj);
     }
 
-    public static Map<String, String> getMapFromString(String json) throws IOException {
+    public static Map<String, Object> getMapFromString(String json) throws IOException {
         return mapper.readValue(json, Map.class);
     }
 
     public static ObjectNode createNode() {
         return mapper.createObjectNode();
+    }
+
+    public static ValueNode createValueNode(String str) {
+        return mapper.getNodeFactory().rawValueNode(new RawValue(str));
     }
 }
