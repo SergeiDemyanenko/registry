@@ -44,10 +44,9 @@ public class Controller {
         return ResponseHelper.get(result, MediaType.APPLICATION_OCTET_STREAM, report_id + ".doc");
     }
 
-    //TODO temporarily, to maintain compatibility with the client
-    @RequestMapping("/api/directory/{model_name}")
+    @RequestMapping("/api/model/{model_name}")
     public ResponseEntity<Resource> getData(@PathVariable("model_name") String modelName) throws IOException {
-        return getModel(modelName, "data");
+        return getModel(modelName, "get");
     }
 
     @RequestMapping("/api/model/{model_name}/{item_name}")

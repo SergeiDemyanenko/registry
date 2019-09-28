@@ -12,7 +12,6 @@ public class ModelItemEntity {
     public enum Type {
         REQUEST,
         FORM,
-        ACTION,
         SET;
     }
 
