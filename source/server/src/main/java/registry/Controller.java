@@ -49,14 +49,6 @@ public class Controller {
     public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
                                              @RequestBody(required = false) Map<String, String> parameters,
                                              HttpServletRequest request) throws IOException {
-        String requestString = request.getMethod().toLowerCase();
-        String itemName = "";
-        switch (requestString) {
-            case "get": itemName = "get"; break;
-            case "put": itemName = "sql_update"; break;
-            case "post": itemName = "sql_insert"; break;
-            case "delete": itemName = "sql_delete"; break;
-        }
-        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, itemName, parameters));
+        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, request.getMethod().toLowerCase(), parameters));
     }
 }
