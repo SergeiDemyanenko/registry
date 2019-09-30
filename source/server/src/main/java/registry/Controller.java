@@ -11,7 +11,9 @@ import registry.util.JsonHelper;
 import registry.util.ModelHelper;
 import registry.util.ReportUtils;
 import registry.util.ResponseHelper;
+import sun.tools.tree.ShiftRightExpression;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Map;
@@ -43,27 +45,18 @@ public class Controller {
         return ResponseHelper.get(result, MediaType.APPLICATION_OCTET_STREAM, report_id + ".doc");
     }
 
-    @GetMapping("/api/model/{model_name}")
+    @RequestMapping("/api/model/{model_name}")
     public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
-                                             @RequestBody(required = false) Map<String, String> parameters) throws IOException {
-        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, "get", parameters));
-    }
-
-    @PostMapping("/api/model/{model_name}")
-    public ResponseEntity<Resource> postModel(@PathVariable("model_name") String modelName,
-                                             @RequestBody(required = false) Map<String, String> parameters) throws IOException {
-        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, "sql_insert", parameters));
-    }
-
-    @PutMapping("/api/model/{model_name}")
-    public ResponseEntity<Resource> putModel(@PathVariable("model_name") String modelName,
-                                             @RequestBody(required = false) Map<String, String> parameters) throws IOException {
-        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, "sql_update", parameters));
-    }
-
-    @DeleteMapping("/api/model/{model_name}")
-    public ResponseEntity<Resource> deleteModel(@PathVariable("model_name") String modelName,
-                                             @RequestBody(required = false) Map<String, String> parameters) throws IOException {
-        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, "sql_delete", parameters));
+                                             @RequestBody(required = false) Map<String, String> parameters,
+                                             HttpServletRequest request) throws IOException {
+        String requestString = request.getMethod().toLowerCase();
+        String itemName = "";
+        switch (requestString) {
+            case "get": itemName = "get"; break;
+            case "put": itemName = "sql_update"; break;
+            case "post": itemName = "sql_insert"; break;
+            case "delete": itemName = "sql_delete"; break;
+        }
+        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, itemName, parameters));
     }
 }
