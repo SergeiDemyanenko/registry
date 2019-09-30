@@ -7,8 +7,13 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Map;
 
 public class DataBase {
+
+    public static JSONArray getJsonFromSQL(DataSource dataSource, String sql) {
+        return getJsonFromSQL(dataSource, sql, null);
+    }
 
     private static class GetParameterValueWrapper implements SqlParameterSource {
 
@@ -28,23 +33,30 @@ public class DataBase {
             return getParameterValue.get(paramName);
         }
     }
-
     public static void getResultFromSQL(DataSource dataSource, String sql, GetParameterValue getParameterValue, GetResultSet<SqlRowSet> getResultSet) throws SQLException {
+        getResultFromSQL(dataSource, sql, null, getParameterValue, getResultSet);
+    }
 
+    public static void getResultFromSQL(DataSource dataSource, String sql, Map<String, String> parameters, GetParameterValue getParameterValue, GetResultSet<SqlRowSet> getResultSet) throws SQLException {
+        SqlRowSet sqlRowSet;
         NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(sql, new GetParameterValueWrapper(getParameterValue));
+        if (parameters != null) {
+            sqlRowSet = jdbcTemplate.queryForRowSet(sql, parameters);
+        } else {
+            sqlRowSet = jdbcTemplate.queryForRowSet(sql, new GetParameterValueWrapper(getParameterValue));
+        }
         getResultSet.get(sqlRowSet);
     }
 
-    public static void getResultFromSQL(DataSource dataSource, String sql, GetResultSet<SqlRowSet> getResultSet) throws SQLException {
-        getResultFromSQL(dataSource, sql, null, getResultSet);
+    public static void getResultFromSQL(DataSource dataSource, String sql, Map<String, String> parameters, GetResultSet<SqlRowSet> getResultSet) throws SQLException {
+        getResultFromSQL(dataSource, sql, parameters,null, getResultSet);
     }
 
-    public static JSONArray getJsonFromSQL(DataSource dataSource, String sql) {
+    public static JSONArray getJsonFromSQL(DataSource dataSource, String sql, Map<String, String> parameters) {
         try {
             JSONArray jsonData = new JSONArray();
 
-            getResultFromSQL(dataSource, sql, resultSet -> {
+            getResultFromSQL(dataSource, sql, parameters, resultSet -> {
                 String[] columnNames = resultSet.getMetaData().getColumnNames();
                 while (resultSet.next()) {
                     JSONArray jsonRow = new JSONArray();
