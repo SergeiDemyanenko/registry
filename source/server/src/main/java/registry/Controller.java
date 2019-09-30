@@ -43,15 +43,27 @@ public class Controller {
         return ResponseHelper.get(result, MediaType.APPLICATION_OCTET_STREAM, report_id + ".doc");
     }
 
-    @RequestMapping("/api/model/{model_name}")
-    public ResponseEntity<Resource> getData(@PathVariable("model_name") String modelName) throws IOException {
-        return getModel(modelName, "get", null);
+    @GetMapping("/api/model/{model_name}")
+    public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
+                                             @RequestBody(required = false) Map<String, String> parameters) throws IOException {
+        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, "get", parameters));
     }
 
-    @GetMapping("/api/model/{model_name}/{item_name}")
-    public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
-                                             @PathVariable("item_name") String itemName,
+    @PostMapping("/api/model/{model_name}")
+    public ResponseEntity<Resource> postModel(@PathVariable("model_name") String modelName,
                                              @RequestBody(required = false) Map<String, String> parameters) throws IOException {
-        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, itemName, parameters));
+        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, "sql_insert", parameters));
+    }
+
+    @PutMapping("/api/model/{model_name}")
+    public ResponseEntity<Resource> putModel(@PathVariable("model_name") String modelName,
+                                             @RequestBody(required = false) Map<String, String> parameters) throws IOException {
+        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, "sql_update", parameters));
+    }
+
+    @DeleteMapping("/api/model/{model_name}")
+    public ResponseEntity<Resource> deleteModel(@PathVariable("model_name") String modelName,
+                                             @RequestBody(required = false) Map<String, String> parameters) throws IOException {
+        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, "sql_delete", parameters));
     }
 }
