@@ -59,11 +59,4 @@ public class ModelHelper {
 
         return null;
     }
-
-    private String prepareStatement(String request) {
-
-        return null;
-    }
-
-
 }
