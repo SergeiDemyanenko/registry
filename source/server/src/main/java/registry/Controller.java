@@ -50,15 +50,14 @@ public class Controller {
     @RequestMapping("/api/model/{model_name}/{item_name}")
     public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
                                              @RequestBody(required = false) Map<String, String> parameters,
-                                             @PathVariable("item_name") String itemName,
-                                             HttpServletRequest request) throws IOException {
+                                             @PathVariable("item_name") String itemName) throws IOException {
         return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, itemName, parameters));
     }
 
     @RequestMapping("/api/model/{model_name}")
     public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
-                                             @RequestBody(required = false) Map<String, String> parameters,
-                                             HttpServletRequest request) throws IOException {
+                                             HttpServletRequest request,
+                                             @RequestBody(required = false) Map<String, String> parameters) throws IOException {
         return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, request.getMethod().toLowerCase(), parameters));
     }
 }
