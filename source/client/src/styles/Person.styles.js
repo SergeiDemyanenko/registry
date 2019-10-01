@@ -11,7 +11,8 @@ export default theme => ({
 		alignItems: 'center'
 	},
 	button: {
-		margin: theme.spacing(1)
+		margin: theme.spacing(1),
+		fontSize: 40
 	},
 	input: {
 		display: 'none'

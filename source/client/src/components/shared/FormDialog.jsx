@@ -16,7 +16,7 @@ class FormDialog extends React.Component {
 				<DialogContent>
 					{this.props.columns.map((column, columnIndex) => (
 						<form key={columnIndex} className={this.props.classes.formDialogInput}>
-							<TextField className={this.props.classes.TextField} label={column} margin='normal' />
+							<TextField className={this.props.classes.TextField} label={column.name} margin='normal' />
 						</form>
 					))}
 				</DialogContent>
