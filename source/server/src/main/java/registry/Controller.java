@@ -25,8 +25,6 @@ import java.util.Map;
 public class Controller {
 
     @Autowired
-    private DataSource dataSource;
-    @Autowired
     private ReportUtils report;
     @Autowired
     private MenuItemRepository menuItemRepository;
@@ -47,17 +45,17 @@ public class Controller {
         return ResponseHelper.get(result, MediaType.APPLICATION_OCTET_STREAM, report_id + ".doc");
     }
 
-    @RequestMapping("/api/model/{model_name}/{item_name}")
-    public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
-                                             @RequestBody(required = false) Map<String, String> parameters,
-                                             @PathVariable("item_name") String itemName) throws IOException {
-        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, itemName, parameters));
-    }
-
     @RequestMapping("/api/model/{model_name}")
     public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
-                                             HttpServletRequest request,
+                                             @RequestBody(required = false) Map<String, String> parameters,
+                                             HttpServletRequest request) throws IOException {
+        return getModel(modelName, request.getMethod().toLowerCase(), parameters);
+    }
+
+    @RequestMapping("/api/model/{model_name}/{item_name}")
+    public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
+                                             @PathVariable("item_name") String itemName,
                                              @RequestBody(required = false) Map<String, String> parameters) throws IOException {
-        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, request.getMethod().toLowerCase(), parameters));
+        return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, itemName, parameters));
     }
 }
