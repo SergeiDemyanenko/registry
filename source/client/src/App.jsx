@@ -22,7 +22,7 @@ import axios from 'axios';
 import Person from './components/directory/Person';
 
 class App extends React.Component {
-	componentWillMount() {
+	componentDidMount() {
 		this.fetchMenu().then(response => {
 			this.props.setMenu(response.data);
 		});
@@ -40,7 +40,7 @@ class App extends React.Component {
 	 * Recursivly builds deep nested Menu
 	 * @param {*} leftMenuItems
 	 */
-	buildMenu(leftMenuItems) {
+	buildMenu(leftMenuItems, path = '') {
 		return (
 			<List>
 				{leftMenuItems.map(leftMenuItem => {
@@ -58,13 +58,17 @@ class App extends React.Component {
 									{leftMenuItem.isExpanded ? <ExpandLess /> : <ExpandMore />}
 								</ListItem>
 								<Collapse in={leftMenuItem.isExpanded} timeout='auto' unmountOnExit className={this.props.classes.nested}>
-									{this.buildMenu(leftMenuItem.items)}
+									{this.buildMenu(leftMenuItem.items, leftMenuItem.name)}
 								</Collapse>
 							</div>
 						);
 					} else {
+						/**
+						 * temporary solution for url paths
+						 */
+						path = leftMenuItem.name;
 						return (
-							<Link to={leftMenuItem.path} className={this.props.classes.link}>
+							<Link to={path} className={this.props.classes.link} key={leftMenuItem.title}>
 								<ListItem button key={leftMenuItem.title}>
 									<ListItemText primary={leftMenuItem.title} />
 								</ListItem>

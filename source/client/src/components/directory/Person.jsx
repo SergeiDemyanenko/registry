@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import personStyles from '../../styles/Person.styles';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import DynamicTable from '../DynamicTable';
 import FormDialog from '../shared/FormDialog';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import IconButton from '@material-ui/core/IconButton';
 
 class Person extends React.Component {
 	constructor(props) {
@@ -22,13 +24,12 @@ class Person extends React.Component {
 		return (
 			<div>
 				<FormDialog open={this.state.open} columns={this.props.directory.columns} onDismiss={() => this.toggleDialog()} />
-				<Button variant='contained' color='primary' className={this.props.classes.button} onClick={() => this.toggleDialog()}>
-					Добавить
-				</Button>
-
-				<Button variant='contained' color='secondary' className={this.props.classes.button}>
-					Удалить
-				</Button>
+				<IconButton color='primary' className={this.props.classes.button} onClick={() => this.toggleDialog()}>
+					<AddBoxIcon />
+				</IconButton>
+				<IconButton color='secondary' className={this.props.classes.button} aria-label='delete'>
+					<DeleteIcon />
+				</IconButton>
 				<div className={this.props.classes.tableContainer}>
 					{this.props.directory.peopleLoading ? (
 						loadingIndicator
@@ -46,11 +47,11 @@ class Person extends React.Component {
 		}));
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.props.setPeopleLoading(true);
 		this.fetchPeople().then(response => {
 			this.props.setPeopleLoading(false);
-			this.props.setColumns(response.data.HEAD);
+			this.props.setColumns(response.data.FORM);
 			this.props.setPeople(response.data.DATA);
 		});
 	}
@@ -58,7 +59,7 @@ class Person extends React.Component {
 	fetchPeople() {
 		return axios({
 			method: 'get',
-			url: '/api/directory/person',
+			url: '/api/model/person',
 			responseType: 'json'
 		});
 	}
