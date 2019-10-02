@@ -30,3 +30,10 @@ project(':server') {
         apply plugin: "java"
     }
 }
+
+project(':integrationTests') {
+    apply plugin: "java"
+    subprojects {
+        apply plugin: "java"
+    }
+}
