@@ -134,7 +134,7 @@ class App extends React.Component {
 				</nav>
 				<main className={classes.content}>
 					<div className={classes.toolbar} />
-					<Route path='/directory/person' component={Person} />
+					<Route path='/person' component={Person} />
 				</main>
 			</div>
 		);

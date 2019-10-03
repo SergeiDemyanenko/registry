@@ -17,14 +17,14 @@ class DynamicTable extends React.Component {
 			<Table>
 				<TableHead>
 					<TableRow>
-						{/* TODO: Hide ID_PERSON column */}
-						{this.props.columns.map((column, columnIndex) => (
-							<TableCell key={columnIndex}>{column.title}</TableCell>
-						))}
+						{this.props.columns
+							.filter(column => column.visible !== false)
+							.map((column, columnIndex) => (
+								<TableCell key={columnIndex}>{column.title}</TableCell>
+							))}
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{/* TODO: Hide ID_PERSON column */}
 					{this.props.rows.map((row, rowIndex) => (
 						<TableRow
 							key={rowIndex}
