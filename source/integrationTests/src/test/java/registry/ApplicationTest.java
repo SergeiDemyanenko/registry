@@ -24,10 +24,12 @@ public class ApplicationTest {
 
     private static JSONObject model;
     private TestRestTemplate restTemplate = new TestRestTemplate();
-
     private static Integer id;
+    private String expectedResponseBodyAfterUpdate = "John\",\"Jason\",\"Donata\",\"1234567890\",\"2019-09-08\",\"ACDF\"," +
+            "\"2019-09-08\",\"ESD\",\"12345\",\"Street\",\"2019-09-08\",\"City\"";
 
-    public boolean isJSONValid(String test) {
+
+    private boolean isJSONValid(String test) {
         try {
             new JSONObject(test);
         } catch (JSONException ex) {
@@ -45,7 +47,7 @@ public class ApplicationTest {
         return "http://localhost:" + this.port + uri;
     }
 
-    private ResponseEntity<String> getModel() throws JSONException {
+    private ResponseEntity<String> getModel() {
         HttpHeaders httpHeaders = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(null, httpHeaders);
         ResponseEntity<String> response = restTemplate.exchange(
@@ -69,6 +71,17 @@ public class ApplicationTest {
         model.put("BIRTH_DATE", "2019-09-08");
         model.put("BIRTH_PLACE", "City");
         id = 0;
+    }
+
+    @AfterAll
+    public void cleanDbEntry() {
+        JSONObject body = new JSONObject();
+        body.put("ID_PERSON", id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<String> entity = new HttpEntity<String>(body.toString(), headers);
+        ResponseEntity<String> response = this.restTemplate.exchange(
+                createURLWithPort("/api/model/person/sql_delete"), HttpMethod.DELETE, entity, String.class);
     }
 
     @Test
@@ -114,25 +127,34 @@ public class ApplicationTest {
         model.put("ID_PERSON", id);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        String expectedResponseBody = "John\",\"Jason\",\"Donata\",\"1234567890\",\"2019-09-08\",\"ACDF\"," +
-                "\"2019-09-08\",\"ESD\",\"12345\",\"Street\",\"2019-09-08\",\"City\"";
         HttpEntity<String> entity = new HttpEntity<String>(model.toString(), headers);
         ResponseEntity<String> response = this.restTemplate.exchange(
                 createURLWithPort("/api/model/person/sql_update"), HttpMethod.PUT, entity, String.class);
         assertEquals(200, response.getStatusCodeValue());
         String responseString = response.getBody();
-        System.out.println(responseString);
-        Assertions.assertTrue(responseString.contains(expectedResponseBody));
+        Assertions.assertTrue(responseString.contains(expectedResponseBodyAfterUpdate));
 
         ResponseEntity<String> newResponse = getModel();
         assertEquals(200, newResponse.getStatusCodeValue());
-        Assertions.assertTrue(newResponse.getBody().contains(expectedResponseBody));
+        Assertions.assertTrue(newResponse.getBody().contains(expectedResponseBodyAfterUpdate));
     }
 
     @Test
     @Order(4)
     public void deleteModel() {
+        JSONObject body = new JSONObject();
+        body.put("ID_PERSON", id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<String> entity = new HttpEntity<String>(body.toString(), headers);
+        ResponseEntity<String> response = this.restTemplate.exchange(
+                createURLWithPort("/api/model/person/sql_delete"), HttpMethod.DELETE, entity, String.class);
+        assertEquals(200, response.getStatusCodeValue());
+        Assertions.assertEquals(response.getBody(), body.toString());
 
+        ResponseEntity<String> newResponse = getModel();
+        assertEquals(200, newResponse.getStatusCodeValue());
+        Assertions.assertFalse(newResponse.getBody().contains(expectedResponseBodyAfterUpdate));
     }
 
 
