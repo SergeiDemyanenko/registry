@@ -22,37 +22,58 @@ import java.util.Map;
 
 
 @RestController
+@RequestMapping("/api/")
 public class Controller {
+
+    public static final String USER_PARAM = "username";
+    private static final String PASS_PARAM = "password";
 
     @Autowired
     private ReportUtils report;
     @Autowired
     private MenuItemRepository menuItemRepository;
 
-    @RequestMapping("/api/hi")
+    @RequestMapping("login")
+    public ResponseEntity<Resource> getLogin(@RequestBody(required = false) Map<String, String> parameters,
+                                             HttpServletRequest request) {
+        Object userName = request.getAttribute(USER_PARAM);
+        if (userName == null) {
+            request.setAttribute(USER_PARAM, "user");
+        }
+
+        return ResponseHelper.get("success", MediaType.TEXT_PLAIN);
+    }
+
+    @RequestMapping("logout")
+    public ResponseEntity<Resource> getLogin(HttpServletRequest request) {
+        request.removeAttribute(USER_PARAM);
+        return ResponseHelper.get("success", MediaType.TEXT_PLAIN);
+    }
+
+    @RequestMapping("hi")
     public ResponseEntity<Resource> getHi() {
         return ResponseHelper.get("hi", MediaType.TEXT_PLAIN);
     }
 
-    @RequestMapping ("/api/menu")
+    @RequestMapping("menu")
     public ResponseEntity<Resource> getMenu() throws JsonProcessingException {
         return ResponseHelper.getAsJson(JsonHelper.getAsBytes(menuItemRepository.findAllRoot()));
     }
 
-    @RequestMapping("/api/report/{report_id}")
+    @RequestMapping("report/{report_id}")
     public ResponseEntity<Resource> getReport(@PathVariable("report_id") String report_id) {
         String result = this.report.createReport(Long.valueOf(report_id));
         return ResponseHelper.get(result, MediaType.APPLICATION_OCTET_STREAM, report_id + ".doc");
     }
 
-    @RequestMapping("/api/model/{model_name}")
+    @RequestMapping("model/{model_name}")
     public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
                                              @RequestBody(required = false) Map<String, String> parameters,
                                              HttpServletRequest request) throws IOException {
         return getModel(modelName, request.getMethod().toLowerCase(), parameters);
     }
 
-    @RequestMapping("/api/model/{model_name}/{item_name}")
+    @RequestMapping("model/{model_name}/{item_name}")
     public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
                                              @PathVariable("item_name") String itemName,
                                              @RequestBody(required = false) Map<String, String> parameters) throws IOException {
