@@ -20,6 +20,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import axios from 'axios';
 import Person from './components/directory/Person';
+import Login from './components/Login';
 
 class App extends React.Component {
 	componentDidMount() {
@@ -135,6 +136,7 @@ class App extends React.Component {
 				<main className={classes.content}>
 					<div className={classes.toolbar} />
 					<Route path='/person' component={Person} />
+					<Route path='/login' component={Login} />
 				</main>
 			</div>
 		);
