@@ -16,6 +16,7 @@ import registry.util.ReportUtils;
 import registry.util.ResponseHelper;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Map;
@@ -34,20 +35,20 @@ public class Controller {
     private MenuItemRepository menuItemRepository;
 
     @RequestMapping("login")
-    public ResponseEntity<Resource> getLogin(@RequestBody(required = false) Map<String, String> parameters,
-                                             HttpServletRequest request) {
-        Object userName = request.getAttribute(USER_PARAM);
+    public void getLogin(@RequestBody(required = false) Map<String, String> parameters,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        Object userName = request.getSession().getAttribute(USER_PARAM);
         if (userName == null) {
-            request.setAttribute(USER_PARAM, "user");
+            request.getSession().setAttribute(USER_PARAM, "user");
         }
 
-        return ResponseHelper.get("success", MediaType.TEXT_PLAIN);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @RequestMapping("logout")
-    public ResponseEntity<Resource> getLogin(HttpServletRequest request) {
+    public void getLogin(HttpServletRequest request, HttpServletResponse response) {
         request.removeAttribute(USER_PARAM);
-        return ResponseHelper.get("success", MediaType.TEXT_PLAIN);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @RequestMapping("hi")

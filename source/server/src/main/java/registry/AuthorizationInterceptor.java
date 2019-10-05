@@ -11,9 +11,6 @@ import java.io.IOException;
 @Component
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
-    @Value("${application.authorization.login-uri}")
-    private String authorizationLoginUri;
-
     @Value("${application.authorization.enabled}")
     private Boolean authorizationEnabled;
 
@@ -22,9 +19,9 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
         if (Boolean.TRUE.equals(authorizationEnabled)
                 && request.getSession().getAttribute(Controller.USER_PARAM) == null
-                && !request.getRequestURI().equals(authorizationLoginUri))
+                && !request.getRequestURI().equals("/api/login"))
         {
-            response.sendRedirect(authorizationLoginUri);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
 
