@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import registry.dataBase.DataBase;
 import registry.entity.model.ModelEntity;
 import registry.entity.model.ModelItemEntity;
-import registry.exceptions.ItemNotFoundException;
-import registry.exceptions.ModelNotFoundException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -17,7 +15,6 @@ public class ModelHelper {
 
     public static byte[] getItem(String modelName, String itemName, Map<String, String> parameters) throws IOException {
         ModelEntity model = AutowiredForHelper.getModelRepository().findModelByName(modelName);
-        if (model == null) { throw new ModelNotFoundException("Model not found: " + modelName); }
         return JsonHelper.getAsBytes(getItem(model.getItems(), itemName, parameters));
     }
 
@@ -58,10 +55,7 @@ public class ModelHelper {
                 case REQUEST:
                     return JsonHelper.createValueNode(DataBase.getJsonFromSQL(AutowiredForHelper.getDataSource(), modelItem.getContent(), parameters).toString());
             }
-        } else {
-            throw new ItemNotFoundException("Item not found: " + itemName);
         }
-
         return null;
     }
 }
