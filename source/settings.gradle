@@ -1,1 +1,1 @@
-include "client:registry-client", "db", "server", "integrationTests"
+include "client:registry-client", "db", "server", "tests:integrationTests"

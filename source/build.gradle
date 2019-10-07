@@ -31,7 +31,7 @@ project(':server') {
     }
 }
 
-project(':integrationTests') {
+project(':tests:integrationTests') {
     apply plugin: "java"
     subprojects {
         apply plugin: "java"
