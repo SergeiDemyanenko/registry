@@ -1,0 +1,4 @@
+responseBodyAfterUpdate="John\",\"Jason\",\"Donata\",\"1234567890\",\"2019-09-08\",\"ACDF\",\"2019-09-08\",\"ESD\",\"12345\",\"Street\",\"2019-09-08\",\"City\"
+expectedResponseBody="Валерий\",\"Ильин\",\"Геральдович\",\"\",\"\",\"\",\"2019-09-08\",\"\",\"\",\"\",\"1955-06-12\"
+responseBodyBeforeUpdate="Sam\",\"Jason\",\"Donata\",\"1234567890\",\"2019-09-08\",\"ACDF\",\"2019-09-08\",\"ESD\",\"12345\",\"Street\",\"2019-09-08\",\"City\"
+modelString={"NAME":"Sam","SNAME":"Jason","PNAME":"Donata","PHONE":"1234567890","PASS_ISSUE":"2019-09-08","PASS_ISSUE_CODE":"ACDF","PASS_DATE":"2019-09-08","PASS_SERIES":"ESD","PASS_NUMBER":"12345","PASS_ARRDESS":"Street","BIRTH_DATE":"2019-09-08","BIRTH_PLACE":"City"}

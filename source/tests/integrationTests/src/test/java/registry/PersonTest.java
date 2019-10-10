@@ -4,11 +4,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,6 +21,8 @@ public class PersonTest extends ApplicationTest{
     private static JSONObject model;
     private TestRestTemplate restTemplate = new TestRestTemplate();
     private static Integer id;
+    private static List<String> fileList;
+    private static List<Map> param;
 
     @Value("${responseBodyAfterUpdate}")
     private String responseBodyAfterUpdate;
@@ -26,6 +32,11 @@ public class PersonTest extends ApplicationTest{
     private String responseBodyBeforeUpdate;
     @Value("${modelString}")
     private String modelString;
+
+    @BeforeAll
+    public void setUpEnvironment() {
+
+    }
 
 
     private boolean isJSONValid(String test) {
