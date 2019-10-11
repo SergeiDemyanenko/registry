@@ -20,11 +20,12 @@ import FormControl from '@material-ui/core/FormControl';
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { showPassword: false };
+		this.state = { showPassword: false, password: '', login: false };
 	}
+
 	render() {
 		return (
-			<Dialog open onRequestClose={this.props.toggleLogin} fullScreen={this.props.fullScreen}>
+			<Dialog open>
 				<DialogTitle className={this.props.classes.dialogTitle}>Login</DialogTitle>
 				<DialogContent>
 					<DialogContentText>Please enter your Username and Password</DialogContentText>
@@ -47,7 +48,7 @@ class Login extends React.Component {
 					</FormControl>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={this.props.toggleLogin} color='primary' className={this.props.classes.loginButton}>
+					<Button color='primary' className={this.props.classes.loginButton}>
 						Login
 					</Button>
 				</DialogActions>
