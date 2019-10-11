@@ -21,6 +21,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import axios from 'axios';
 import Person from './components/directory/Person';
 import Login from './components/Login';
+import Button from '@material-ui/core/Button';
 
 class App extends React.Component {
 	componentDidMount() {
@@ -103,6 +104,9 @@ class App extends React.Component {
 						<Typography variant='h6' noWrap>
 							Registry Client
 						</Typography>
+						<Button variant='contained' color='secondary' className={this.props.classes.logoutButton}>
+							 Logout
+						</Button>
 					</Toolbar>
 				</AppBar>
 				<nav className={classes.drawer} aria-label='Mailbox folders'>
