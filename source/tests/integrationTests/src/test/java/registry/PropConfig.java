@@ -39,10 +39,4 @@ public class PropConfig {
         }
         return listProperties;
     }
-
-    public static void main(String[] args) throws IOException {
-        getListProperties();
-        //System.out.println(propertyFilesList.toString());
-        System.out.println(getPropertyFilesList().toString());
-    }
 }
