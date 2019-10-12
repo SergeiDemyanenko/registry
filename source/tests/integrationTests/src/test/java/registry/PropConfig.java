@@ -20,7 +20,7 @@ public class PropConfig {
     public static List<String> getPropertyFilesList() {
         List<String> propFiles = new ArrayList<>();
         for(String str: propertyFilesList) {
-            propFiles.add(str.split(".")[0]);
+            propFiles.add(str.split("\\.")[0]);
         }
         return propFiles;
     }
@@ -41,6 +41,8 @@ public class PropConfig {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(getListProperties().toString());
+        getListProperties();
+        //System.out.println(propertyFilesList.toString());
+        System.out.println(getPropertyFilesList().toString());
     }
 }

@@ -6,12 +6,10 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.function.ThrowingConsumer;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -20,15 +18,15 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 
+
 public class DynamicTestModel extends ApplicationTest{
     private static List<String> fileList;
     private static List<Map<String, String>> paramList;
-    private static JSONObject model;
     private TestRestTemplate restTemplate = new TestRestTemplate();
-    private static Integer id;
+    private static Map<String, Integer> idMap = new HashMap<>();
 
     @BeforeAll
-    public void environmentPrep() throws IOException {
+    public static void environmentPrep() throws IOException {
         paramList = PropConfig.getListProperties();
         fileList = PropConfig.getPropertyFilesList();
     }
@@ -72,17 +70,102 @@ public class DynamicTestModel extends ApplicationTest{
         // the test executor, which actually has the
         // logic to execute the test case
         ThrowingConsumer<String> testExecutor = (input) -> {
-            int id = fileList.indexOf(input);
-            Map<String, String> param = paramList.get(id);
-            ResponseEntity<String> response = getModel(param.get(input));
-            assertEquals(response.getStatusCodeValue(), 200);
+            ResponseEntity<String> response = getModel(input);
+            assertEquals(200, response.getStatusCodeValue());
             Assertions.assertTrue(isJSONValid(response.getBody()));
+            System.out.println("body: " + response.getBody());
 
         };
 
         // combine everything and return a Stream of DynamicTest
+        return DynamicTest.stream(inputGenerator, displayNameGenerator, testExecutor);
+    }
+
+    @Order(2)
+    @TestFactory
+    Stream<DynamicTest> testInsertModel() {Iterator<String> inputGenerator = fileList.iterator();
+
+        Function<String, String> displayNameGenerator = (input) -> "Resolving: " + input;
+
+        ThrowingConsumer<String> testExecutor = (input) -> {
+            int id = fileList.indexOf(input);
+            Map<String, String> param = paramList.get(id);
+            JSONObject model = new JSONObject(param.get("modelString"));
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+            HttpEntity<String> entity = new HttpEntity<String>(model.toString(), headers);
+            ResponseEntity<String> response = this.restTemplate.exchange(
+                    createURLWithPort("/api/model/" + input), HttpMethod.POST, entity, String.class);
+            assertEquals(response.getStatusCodeValue(), 200);
+            String responseString = response.getBody();
+            Assertions.assertTrue(responseString.contains(param.get("responseBodyBeforeUpdate")));
+
+            ResponseEntity<String> newResponse = getModel(input);
+            assertEquals(newResponse.getStatusCodeValue(), 200);
+            Assertions.assertTrue(newResponse.getBody().contains(param.get("responseBodyBeforeUpdate")));
+            id = Integer.valueOf(responseString.split(",")[0].substring(12));
+            idMap.put(input, id);
+
+        };
+
         return DynamicTest.stream(
                 inputGenerator, displayNameGenerator, testExecutor);
     }
+
+    @Order(3)
+    @TestFactory
+    Stream<DynamicTest> testUpdateModel() {Iterator<String> inputGenerator = fileList.iterator();
+
+        Function<String, String> displayNameGenerator = (input) -> "Resolving: " + input;
+
+        ThrowingConsumer<String> testExecutor = (input) -> {
+            int id = fileList.indexOf(input);
+            Map<String, String> param = paramList.get(id);
+            JSONObject model = new JSONObject(param.get("modelStringToUpdate"));
+            model.put(param.get("idName"), idMap.get(input));
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+            HttpEntity<String> entity = new HttpEntity<String>(model.toString(), headers);
+            ResponseEntity<String> response = this.restTemplate.exchange(
+                    createURLWithPort("/api/model/" + input), HttpMethod.PUT, entity, String.class);
+            assertEquals(200, response.getStatusCodeValue());
+            String responseString = response.getBody();
+            System.out.println("body: " + response.getBody());
+            Assertions.assertTrue(responseString.contains(param.get("responseBodyAfterUpdate")));
+
+            ResponseEntity<String> newResponse = getModel(input);
+            assertEquals(200, newResponse.getStatusCodeValue());
+            Assertions.assertTrue(newResponse.getBody().contains(param.get("responseBodyAfterUpdate")));
+        };
+        return DynamicTest.stream(inputGenerator, displayNameGenerator, testExecutor);
+    }
+
+    @Order(4)
+    @TestFactory
+    Stream<DynamicTest> testDeleteModel() {Iterator<String> inputGenerator = fileList.iterator();
+
+        Function<String, String> displayNameGenerator = (input) -> "Resolving: " + input;
+
+        ThrowingConsumer<String> testExecutor = (input) -> {
+            int id = fileList.indexOf(input);
+            Map<String, String> param = paramList.get(id);
+            JSONObject body = new JSONObject();
+            body.put("ID_PERSON", idMap.get(input));
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+            HttpEntity<String> entity = new HttpEntity<String>(body.toString(), headers);
+            ResponseEntity<String> response = this.restTemplate.exchange(
+                    createURLWithPort("/api/model/" + input), HttpMethod.DELETE, entity, String.class);
+            assertEquals(200, response.getStatusCodeValue());
+
+            ResponseEntity<String> newResponse = getModel(input);
+            assertEquals(200, newResponse.getStatusCodeValue());
+            Assertions.assertFalse(newResponse.getBody().contains(param.get("responseBodyAfterUpdate")));
+        };
+        return DynamicTest.stream(inputGenerator, displayNameGenerator, testExecutor);
+    }
+
+
+
 
 }
