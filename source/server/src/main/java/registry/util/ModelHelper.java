@@ -56,7 +56,6 @@ public class ModelHelper {
                     return JsonHelper.createValueNode(DataBase.getJsonFromSQL(AutowiredForHelper.getDataSource(), modelItem.getContent(), parameters).toString());
             }
         }
-
         return null;
     }
 }
