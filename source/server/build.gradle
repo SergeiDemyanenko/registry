@@ -19,7 +19,7 @@ dependencies {
     compile 'org.json:json:20180130'
     compile 'org.javassist:javassist:3.23.1-GA'
     testCompile 'org.mockito:mockito-all:1.9.5'
-    testCompile 'junit:junit:4.12'
+    testCompile 'org.junit.jupiter:junit-jupiter:5.4.0'
     implementation "javax.xml.bind:jaxb-api:2.2.11"
     implementation "com.sun.xml.bind:jaxb-core:2.2.11"
     implementation "com.sun.xml.bind:jaxb-impl:2.2.11"

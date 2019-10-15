@@ -42,5 +42,11 @@ export default theme => ({
 	link: {
 		color: 'inherit',
 		textDecoration: 'none'
+	},
+
+	logoutButton: {
+		width: '100px',
+		position: 'absolute',
+		right: '20px'
 	}
 });

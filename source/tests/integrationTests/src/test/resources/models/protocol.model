@@ -1,0 +1,5 @@
+responseBodyAfterUpdate="126\",\"2019-09-08"
+responseBodyBeforeUpdate="26\",\"2019-09-08"
+modelString={"NUMBER":26, "DECISION_DATE":"2019-09-08"}
+modelStringToUpdate={"NUMBER":126, "DECISION_DATE":"2019-09-08"}
+idName=ID_PROTOCOL

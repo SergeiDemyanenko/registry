@@ -14,11 +14,13 @@ class FormDialog extends React.Component {
 			<Dialog open={this.props.open}>
 				<DialogTitle id='alert-dialog-title'>Добавить физическое лицо</DialogTitle>
 				<DialogContent>
-					{this.props.columns.map((column, columnIndex) => (
-						<form key={columnIndex} className={this.props.classes.formDialogInput}>
-							<TextField className={this.props.classes.TextField} label={column.name} margin='normal' />
-						</form>
-					))}
+					{this.props.columns
+						.filter(column => column.visible !== false)
+						.map((column, columnIndex) => (
+							<form key={columnIndex} className={this.props.classes.formDialogInput}>
+								<TextField className={this.props.classes.TextField} label={column.title} margin='normal' />
+							</form>
+						))}
 				</DialogContent>
 				<DialogActions>
 					<Button variant='contained' color='secondary' className={this.props.classes.button} onClick={() => this.props.onDismiss()}>

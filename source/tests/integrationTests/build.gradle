@@ -1,0 +1,56 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'maven-publish'
+}
+
+
+repositories {
+    mavenLocal()
+    maven {
+        url = 'http://repo.maven.apache.org/maven2'
+    }
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            srcDir "src/test/java"
+        }
+        resources {
+            srcDir "src/test/resources"
+        }
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+    }
+}
+idea {
+    module {
+        testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
+        testSourceDirs += project.sourceSets.integrationTest.resources.srcDirs
+    }
+}
+
+dependencies {
+    testCompile project(':server')
+    testCompile 'org.mockito:mockito-all:1.9.5'
+    testCompile 'org.junit.jupiter:junit-jupiter:5.4.0'
+    testCompile group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.5.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.0.5.RELEASE'
+}
+
+group = 'com.registry'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
