@@ -17,7 +17,7 @@ public class ExceptionHandlerHelper {
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleModelNotFoundException (ModelNotFoundException exception) {
+    public ResponseEntity<ErrorResponse> handleNotFoundException (NotFoundException exception) {
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 exception.getMessage(),
