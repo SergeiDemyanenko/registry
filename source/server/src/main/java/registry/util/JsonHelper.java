@@ -27,7 +27,7 @@ public class JsonHelper {
         return mapper.writeValueAsBytes(obj);
     }
 
-    public static Map<String, Object> getMapFromString(String json) throws IOException {
+    public static Map<String, Object> getMapFromString(String json) throws Exception {
         return mapper.readValue(json, Map.class);
     }
 

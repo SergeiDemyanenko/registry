@@ -8,20 +8,20 @@ import registry.entity.model.ModelItemEntity;
 import registry.exceptions.RequestNotFoundException;
 import registry.exceptions.ModelNotFoundException;
 
-import java.io.IOException;
 import java.util.Map;
 
 public class ModelHelper {
 
     private static final String CONST_PREFIX = "const.";
 
-    public static byte[] getItem(String modelName, String itemName, Map<String, String> parameters) throws IOException {
+    public static byte[] getItem(String modelName, String itemName, Map<String, String> parameters) throws Exception {
         ModelEntity model = AutowiredForHelper.getModelRepository().findModelByName(modelName);
-        if (model == null) { throw new ModelNotFoundException(modelName); }
+        if (model == null) throw new ModelNotFoundException(modelName);
+
         return JsonHelper.getAsBytes(getItem(model.getItems(), itemName, parameters));
     }
 
-    private static JsonNode getItemSet(Map<String, ModelItemEntity> modelItemMap, Map<String, Object> nameMap, Map<String, String> parameters) throws IOException {
+    private static JsonNode getItemSet(Map<String, ModelItemEntity> modelItemMap, Map<String, Object> nameMap, Map<String, String> parameters) throws Exception {
         ObjectNode result = JsonHelper.createNode();
         for (Map.Entry<String, Object> entry : nameMap.entrySet()) {
             JsonNode node = null;
@@ -47,20 +47,17 @@ public class ModelHelper {
         return result;
     }
 
-    private static JsonNode getItem(Map<String, ModelItemEntity> modelItemMap, String itemName, Map<String, String> parameters) throws IOException {
+    private static JsonNode getItem(Map<String, ModelItemEntity> modelItemMap, String itemName, Map<String, String> parameters) throws Exception {
         ModelItemEntity modelItem = modelItemMap.get(itemName);
-        if (modelItem != null) {
-            switch (modelItem.getType()) {
-                case SET:
-                    return getItemSet(modelItemMap, JsonHelper.getMapFromString(modelItem.getContent()), parameters);
-                case FORM:
-                    return JsonHelper.createValueNode(modelItem.getContent());
-                case REQUEST:
-                    return JsonHelper.createValueNode(DataBase.getJsonFromSQL(AutowiredForHelper.getDataSource(), modelItem.getContent(), parameters).toString());
-            }
-        } else {
-            throw new RequestNotFoundException(itemName);
+        if (modelItem == null) throw new RequestNotFoundException(itemName);
+
+        switch (modelItem.getType()) {
+            case SET:
+                return getItemSet(modelItemMap, JsonHelper.getMapFromString(modelItem.getContent()), parameters);
+            case REQUEST:
+                return JsonHelper.createValueNode(DataBase.getJsonFromSQL(AutowiredForHelper.getDataSource(), modelItem.getContent(), parameters).toString());
+            default:
+                return JsonHelper.createValueNode(modelItem.getContent());
         }
-        return null;
     }
 }
