@@ -30,9 +30,11 @@ class DynamicTable extends React.Component {
 							key={rowIndex}
 							onMouseEnter={() => this.onRowMouseEnter(rowIndex)}
 							className={this.state.hoveredIndex === rowIndex ? this.props.classes.rowHover : ''}>
-							{this.props.columns.map((column, columnIndex) => (
-								<TableCell key={columnIndex}>{row[columnIndex]}</TableCell>
-							))}
+							{this.props.columns
+								.filter(column => column.visible !== false)
+								.map((column, columnIndex) => (
+									<TableCell key={columnIndex}>{row[columnIndex]}</TableCell>
+								))}
 						</TableRow>
 					))}
 				</TableBody>
