@@ -19,9 +19,10 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import axios from 'axios';
-import Person from './components/directory/Person';
+import DataView from './components/DataView';
 import Login from './components/Login';
 import Button from '@material-ui/core/Button';
+import ErrorComponent from './components/shared/ErrorComponent';
 
 class App extends React.Component {
 	componentDidMount() {
@@ -82,6 +83,16 @@ class App extends React.Component {
 		);
 	}
 
+	buildRoutes(leftMenuItems) {
+		return leftMenuItems.map(leftMenuItem => {
+			if (leftMenuItem.items) {
+				return this.buildRoutes(leftMenuItem.items);
+			} else {
+				return <Route key={leftMenuItem.name} path={`/${leftMenuItem.name}`} component={leftMenuItem.url ? DataView : ErrorComponent} />;
+			}
+		});
+	}
+
 	getDrawer() {
 		return (
 			<div>
@@ -139,8 +150,8 @@ class App extends React.Component {
 				</nav>
 				<main className={classes.content}>
 					<div className={classes.toolbar} />
-					<Route path='/person' component={Person} />
 					<Route path='/login' component={Login} />
+					{this.buildRoutes(this.props.app.leftMenuItems)}
 				</main>
 			</div>
 		);
@@ -152,6 +163,7 @@ const mapStateToProps = state => {
 		app: state.appReducer
 	};
 };
+
 const mapDispatchToProps = dispatch => {
 	return {
 		setName: name => {
@@ -179,6 +191,7 @@ const mapDispatchToProps = dispatch => {
 		}
 	};
 };
+
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
