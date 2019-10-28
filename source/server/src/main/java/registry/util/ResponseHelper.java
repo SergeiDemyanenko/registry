@@ -30,7 +30,7 @@ public class ResponseHelper {
     }
 
     public static ResponseEntity<Resource> getAsJson(byte[] body) {
-        return get(body, MediaType.APPLICATION_JSON_UTF8, null);
+        return get(body, MediaType.APPLICATION_JSON, null);
     }
 
     public static ResponseEntity<Resource> get(String body, MediaType mediaType, @Null String fileName) {

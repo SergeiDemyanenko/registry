@@ -23,7 +23,6 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/api/")
 public class Controller {
 
     public static final String USER_PARAM = "username";
