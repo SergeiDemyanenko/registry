@@ -70,14 +70,14 @@ public class Controller {
     @RequestMapping("model/{model_name}")
     public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
                                              @RequestBody(required = false) Map<String, String> parameters,
-                                             HttpServletRequest request) throws IOException {
+                                             HttpServletRequest request) throws Exception {
         return getModel(modelName, request.getMethod().toLowerCase(), parameters);
     }
 
     @RequestMapping("model/{model_name}/{item_name}")
     public ResponseEntity<Resource> getModel(@PathVariable("model_name") String modelName,
                                              @PathVariable("item_name") String itemName,
-                                             @RequestBody(required = false) Map<String, String> parameters) throws IOException {
+                                             @RequestBody(required = false) Map<String, String> parameters) throws Exception {
         return ResponseHelper.getAsJson(ModelHelper.getItem(modelName, itemName, parameters));
     }
 }
