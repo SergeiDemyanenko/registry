@@ -8,11 +8,12 @@ import registry.entity.model.ModelItemEntity;
 import registry.exceptions.RequestNotFoundException;
 import registry.exceptions.ModelNotFoundException;
 
-import java.util.Map;
+import java.util.*;
 
 public class ModelHelper {
 
     private static final String CONST_PREFIX = "const.";
+    private static final Set<String> CONST_SET = new HashSet<>(Arrays.asList(Boolean.FALSE.toString(), Boolean.TRUE.toString()));
 
     public static byte[] getItem(String modelName, String itemName, Map<String, String> parameters) throws Exception {
         ModelEntity model = AutowiredForHelper.getModelRepository().findModelByName(modelName);
@@ -28,12 +29,16 @@ public class ModelHelper {
             String itemName = null;
             if (entry.getValue() instanceof Map) {
                 node = getItemSet(modelItemMap, (Map)entry.getValue(), parameters);
+            } else if (entry.getValue() instanceof List) {
+                //?
             } else {
                 itemName = entry.getValue().toString();
-                if (itemName.startsWith(CONST_PREFIX)) {
-                    itemName = itemName.substring(CONST_PREFIX.length());
-                } else {
-                    node = getItem(modelItemMap, itemName, parameters);
+                if (!CONST_SET.contains(itemName)) {
+                    if (itemName.startsWith(CONST_PREFIX)) {
+                        itemName = itemName.substring(CONST_PREFIX.length());
+                    } else {
+                        node = getItem(modelItemMap, itemName, parameters);
+                    }
                 }
             }
 
