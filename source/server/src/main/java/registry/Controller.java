@@ -22,7 +22,8 @@ import java.io.IOException;
 import java.util.Map;
 
 
-@RestController
+@RestController()
+@RequestMapping("/api/")
 public class Controller {
 
     public static final String USER_PARAM = "username";
