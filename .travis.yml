@@ -6,6 +6,7 @@ dist: trusty
 
 script:
   -  "cd source"
+  - "gradle assemble"
   - "gradle test"
 
 #services:
