@@ -3,7 +3,7 @@ jdk:
 - oraclejdk8
 dist: trusty
 
-script: "gradle test"
+script: "gradle ./test"
 
 #services:
 #  - docker
