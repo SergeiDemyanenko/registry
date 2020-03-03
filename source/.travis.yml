@@ -5,5 +5,5 @@ dist: trusty
 
 script: "gradle test"
 
-services:
-  - docker
+#services:
+#  - docker
