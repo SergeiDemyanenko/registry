@@ -4,7 +4,9 @@ jdk:
 dist: trusty
 
 
-script: "gradle ./test"
+script:
+  -  "cd source"
+  - "gradle source/test"
 
 #services:
 #  - docker
