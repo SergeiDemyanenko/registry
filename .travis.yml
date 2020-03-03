@@ -1,9 +1,0 @@
-language: java
-jdk:
-- oraclejdk8
-dist: trusty
-
-script: "gradle test"
-
-services:
-  - docker
