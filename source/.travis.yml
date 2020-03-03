@@ -6,7 +6,7 @@ dist: trusty
 
 script:
   -  "cd source"
-  - "gradle source/test"
+  - "gradle test"
 
 #services:
 #  - docker
