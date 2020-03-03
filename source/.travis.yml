@@ -3,4 +3,7 @@ jdk:
 - oraclejdk8
 dist: trusty
 
-script: "mvn test --file server"
+script: "gradle test"
+
+services:
+  - docker
