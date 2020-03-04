@@ -7,10 +7,10 @@ services:
   - docker
 
 
-jobs:
-  include:
-    - stage: Test
-      script: gradle test
+#jobs:
+#  include:
+#    - stage: Test
+#      script: gradle test
 
 
 script:
