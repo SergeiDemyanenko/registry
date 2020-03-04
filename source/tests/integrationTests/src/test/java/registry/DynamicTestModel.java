@@ -3,6 +3,7 @@ package registry;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Test;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class DynamicTestModel extends ApplicationTest{
@@ -31,6 +33,11 @@ public class DynamicTestModel extends ApplicationTest{
     public static void environmentPrep() throws IOException {
         paramList = PropConfig.getListProperties();
         fileList = PropConfig.getPropertyFilesList();
+    }
+
+    @Test
+    public static void test() throws IOException {
+        assertTrue(true);
     }
 
     private boolean isJSONValid(String test) {
