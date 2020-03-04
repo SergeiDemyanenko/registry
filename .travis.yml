@@ -16,7 +16,7 @@ jobs:
 
 
 script:
-  - "cd source"3
+  - "cd source"
   - chmod 777 travis.sh
   - ./travis.sh
   - "gradle test"
