@@ -16,6 +16,6 @@ services:
 script:
   - "cd source"
   - chmod 777 travis.sh
-  - ./travis.sh
+  - travis.sh
   - docker build -t firebird .
   - "gradle test"
