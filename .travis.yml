@@ -3,10 +3,20 @@ jdk:
 - oraclejdk8
 dist: trusty
 
+services:
+  - docker
+
+install:
+  - docker build -t firebird .
+
+jobs:
+  include:
+    - stage: Test
+      script: gradle test
+
 
 script:
-  -  "cd source"
+  - "cd source"3
+  - chmod 777 travis.sh
+  - ./travis.sh
   - "gradle test"
-
-#services:
-#  - docker
