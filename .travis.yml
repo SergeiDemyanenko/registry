@@ -6,8 +6,6 @@ dist: trusty
 services:
   - docker
 
-install:
-  - docker build -t firebird .
 
 jobs:
   include:
@@ -19,4 +17,5 @@ script:
   - "cd source"
   - chmod 777 travis.sh
   - ./travis.sh
+  - docker build -t firebird .
   - "gradle test"
