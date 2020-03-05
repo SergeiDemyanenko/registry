@@ -1,0 +1,21 @@
+language: java
+jdk:
+- oraclejdk8
+dist: trusty
+
+services:
+  - docker
+
+
+#jobs:
+#  include:
+#    - stage: Test
+#      script: gradle test
+
+
+script:
+  - "cd source"
+  - docker build -t firebird .
+  - chmod 777 travis.sh
+  - . travis.sh
+  - "gradle test"

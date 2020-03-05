@@ -29,6 +29,16 @@ public class DataBase {
         public Object getValue(String paramName) throws IllegalArgumentException {
             return getParameterValue.get(paramName);
         }
+
+        @Override
+        public int getSqlType(String paramName) {
+            return 0;
+        }
+
+        @Override
+        public String getTypeName(String paramName) {
+            return null;
+        }
     }
 
     public static void getResultFromSQL(DataSource dataSource, String sql, GetParameterValue getParameterValue, GetResultSet<SqlRowSet> getResultSet) throws SQLException {
